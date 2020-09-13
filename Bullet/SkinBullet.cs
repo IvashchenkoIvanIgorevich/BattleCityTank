@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UIConsole
+namespace _20200613_TankLibrary
 {
-    public interface IDownSkinTank
+    public enum SkinBullet
     {
-        char this[int posX, int posY] { get; set; }
+        NoSkin,
+        Metal,
+        Fire
     }
 }

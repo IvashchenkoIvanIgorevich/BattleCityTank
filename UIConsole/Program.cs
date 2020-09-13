@@ -62,6 +62,11 @@ namespace UIConsole
                     {
                         controller.MovePlayer(actionPlayer);
                     }
+
+                    if (actionPlayer == ActionPlayer.PressFire)
+                    {
+
+                    }
                 }
 
                 if (gameTime % ConstantValue.TIME_MOVE_ENEMY == 0)

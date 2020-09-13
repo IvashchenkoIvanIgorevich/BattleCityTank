@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bullet\Bullet.cs" />
     <Compile Include="GameManager.cs" />
+    <Compile Include="Bullet\SkinBullet.cs" />
     <Compile Include="Tanks\EnemyTank.cs" />
     <Compile Include="Enums\ActionPlayer.cs" />
     <Compile Include="GameField.cs" />

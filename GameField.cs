@@ -20,6 +20,7 @@ namespace _20200613_TankLibrary
         private List<EnemyTank> _enemies = new List<EnemyTank>(ConstantValue.NUM_ALL_ENEMY);
         private Coordinate _coordinateBase = new Coordinate(ConstantValue.POS_ROW_BASE, 
             ConstantValue.POS_COL_BASE);
+        private List<Bullet> _bullets = new List<Bullet>();
 
         #endregion
 
@@ -96,6 +97,11 @@ namespace _20200613_TankLibrary
 
                 countEnemy++;
             }
+        }
+
+        public void AddBulletToGameField()
+        {
+            
         }
 
         #endregion

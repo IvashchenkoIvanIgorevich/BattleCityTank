@@ -39,6 +39,8 @@ namespace _20200613_TankLibrary
 
         #endregion
 
+        #region ===--- Methods ---===
+
         public int GetSquareToObj(int posObjX = ConstantValue.POS_ROW_BASE, int posObjY = ConstantValue.POS_COL_BASE)
         {
             int lineX = Math.Abs(posObjX - PosX);
@@ -46,8 +48,6 @@ namespace _20200613_TankLibrary
 
             return lineX * lineY;
         }
-
-        #region ===--- Methods ---===
 
         public bool Move(Direction moveDirect, int step = 1)   
         {
