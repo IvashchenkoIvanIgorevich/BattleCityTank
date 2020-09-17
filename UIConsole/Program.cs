@@ -33,6 +33,11 @@ namespace UIConsole
             }
             while ((actionPlayer & ActionPlayer.StartAction) == 0);
 
+            if (actionPlayer == ActionPlayer.PressLoad)
+            {
+
+            }
+
             if (ActionPlayer.PressEnter.HasFlag(actionPlayer))
             {
                 Initialisator initGame = new Initialisator(newGameField);
@@ -55,7 +60,7 @@ namespace UIConsole
 
                     if (actionPlayer == ActionPlayer.PressPause)
                     {
-                        viewConsole.PrintMessageTheGame("PAUSE!!!", "PRESS ANY KEY TO CONTINUE");
+                        viewConsole.PrintMessageTheGame("PAUSE!!!", "PRESS ANY KEY TO CONTINUE");                        
                     }
 
                     if ((actionPlayer & ActionPlayer.MoveAction) > 0)
@@ -65,7 +70,7 @@ namespace UIConsole
 
                     if (actionPlayer == ActionPlayer.PressFire)
                     {
-
+                        controller.FirePlayer();
                     }
                 }
 
@@ -77,6 +82,16 @@ namespace UIConsole
                     }
 
                     controller.MoveEnemy(actionEnemy);
+                }
+
+                if (actionPlayer == ActionPlayer.PressSave)
+                {
+                    viewConsole.PrintGameFieldToFile();
+                }
+
+                if (gameTime % ConstantValue.TIME_MOVE_BULLET == 0)
+                {
+                    controller.MoveBullets();
                 }
 
                 viewConsole.PrintGameField();

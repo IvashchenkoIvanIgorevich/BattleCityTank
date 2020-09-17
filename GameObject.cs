@@ -12,13 +12,20 @@ namespace _20200613_TankLibrary
     {
         #region ===--- Dataset ---===
 
-        public Coordinate Position { get; protected set; }
+        public Coordinate Position { get; internal set; }
         public ColorSkin Color { get; protected set; }
         protected readonly IField _owner;    // IField
 
         #endregion
 
         #region ===--- Constructor ---===
+
+        public GameObject(IField field)
+        {
+            Position = new Coordinate();
+            Color = ColorSkin.NoColor;
+            _owner = field;
+        }
 
         public GameObject(Coordinate position, ColorSkin colorObj, IField owner)   
         {

@@ -46,6 +46,12 @@ namespace UIConsole
                 case ConsoleKey.P:
                     pressPlayer = ActionPlayer.PressPause;
                     break;
+                case ConsoleKey.S:
+                    pressPlayer = ActionPlayer.PressSave;
+                    break;
+                case ConsoleKey.L:
+                    pressPlayer = ActionPlayer.PressLoad;
+                    break;
                 case ConsoleKey.Enter:
                     pressPlayer = ActionPlayer.PressEnter;
                     break;
@@ -68,6 +74,16 @@ namespace UIConsole
             {
                 _gameField.MoveEnemies(actionEnemies);
             }
+        }
+
+        public void FirePlayer()
+        {
+            _gameField.AddPlayerBullet();
+        }
+
+        public void MoveBullets()
+        {
+            _gameField.MoveBullets();
         }
 
         public char this[int row, int col]
@@ -106,6 +122,9 @@ namespace UIConsole
                         case ObjectType.IceBlock:
                             break;
                         case ObjectType.MetalBlock:
+                            break;
+                        case ObjectType.Bullet:
+                            resultSymbol = ConstantValue.BULLET;
                             break;
                         default:
                             break;

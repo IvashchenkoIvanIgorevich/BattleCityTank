@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
 using CommonLib;
 using _20200613_TankLibrary;
 
@@ -13,18 +14,9 @@ namespace UIConsole
     {
         #region ===--- Data ---===
 
-        public char[,] TankRightDestroy;
-        public char[,] TankLeftDestroy;
-        public char[,] TankDownDestroy;
-        public char[,] TankUpDestroy;
-        public char[,] TankRightHeavy;
-        public char[,] TankLeftHeavy;
-        public char[,] TankDownHeavy;
-        public char[,] TankUpHeavy;
-        public char[,] TankRightLight;
-        public char[,] TankLeftLight;
-        public char[,] TankDownLight;
-        public char[,] TankUpLight;
+        public ViewTank lightTank = new ViewTank(ConstantValue.PATH_FILE_LIGHTTANK);
+        public ViewTank heavyTank = new ViewTank(ConstantValue.PATH_FILE_HEAVYTANK);
+        public ViewTank destroyTank = new ViewTank(ConstantValue.PATH_FILE_DESTROYTANK);
 
         #endregion
 
@@ -32,23 +24,11 @@ namespace UIConsole
 
         public ViewGameObject()
         {
-            TankRightDestroy = CreateRightSkin(SkinTank.Destroy);
-            TankLeftDestroy = CreateLeftSkin(SkinTank.Destroy);
-            TankUpDestroy = CreateUpSkin(SkinTank.Destroy);
-            TankDownDestroy = CreateDownSkin(SkinTank.Destroy);
-
-            TankRightHeavy = CreateRightSkin(SkinTank.Heavy);
-            TankLeftHeavy = CreateLeftSkin(SkinTank.Heavy);
-            TankUpHeavy = CreateUpSkin(SkinTank.Heavy);
-            TankDownHeavy = CreateDownSkin(SkinTank.Heavy);
-
-            TankRightLight = CreateRightSkin(SkinTank.Light);
-            TankLeftLight = CreateLeftSkin(SkinTank.Light);
-            TankUpLight = CreateUpSkin(SkinTank.Light);
-            TankDownLight = CreateDownSkin(SkinTank.Light);
         }
 
         #endregion
+
+        #region ===--- Indexator get char Tank ---===
 
         public char[,] this[SkinTank skin, Direction direction]
         {
@@ -62,16 +42,16 @@ namespace UIConsole
                         switch (direction)
                         {
                             case Direction.Right:
-                                resultView = TankRightLight;
+                                resultView = lightTank.ViewRight;
                                 break;
                             case Direction.Left:
-                                resultView = TankLeftLight;
+                                resultView = lightTank.ViewLeft;
                                 break;
                             case Direction.Up:
-                                resultView = TankUpLight;
+                                resultView = lightTank.ViewUp;
                                 break;
                             case Direction.Down:
-                                resultView = TankDownLight;
+                                resultView = lightTank.ViewDown;
                                 break;
                         }
                         break;
@@ -79,16 +59,16 @@ namespace UIConsole
                         switch (direction)
                         {
                             case Direction.Right:
-                                resultView = TankRightHeavy;
+                                resultView = heavyTank.ViewRight;
                                 break;
                             case Direction.Left:
-                                resultView = TankLeftHeavy;
+                                resultView = heavyTank.ViewLeft;
                                 break;
                             case Direction.Up:
-                                resultView = TankUpHeavy;
+                                resultView = heavyTank.ViewUp;
                                 break;
                             case Direction.Down:
-                                resultView = TankDownHeavy;
+                                resultView = heavyTank.ViewDown;
                                 break;
                         }
                         break;
@@ -96,16 +76,16 @@ namespace UIConsole
                         switch (direction)
                         {
                             case Direction.Right:
-                                resultView = TankRightDestroy;
+                                resultView = destroyTank.ViewRight;
                                 break;
                             case Direction.Left:
-                                resultView = TankLeftDestroy;
+                                resultView = destroyTank.ViewLeft;
                                 break;
                             case Direction.Up:
-                                resultView = TankUpDestroy;
+                                resultView = destroyTank.ViewUp;
                                 break;
                             case Direction.Down:
-                                resultView = TankDownDestroy;
+                                resultView = destroyTank.ViewDown;
                                 break;
                         }
                         break;
@@ -115,6 +95,8 @@ namespace UIConsole
                 return resultView;
             }
         }
+
+        #endregion       
 
         #region ===--- CreateViewBase ---===
 
@@ -145,292 +127,6 @@ namespace UIConsole
             return viewBase;
         }
 
-        #endregion  
-
-        #region ===--- CreateViewTank ---===
-
-        public char[,] CreateLeftSkin(SkinTank skin)
-        {
-            char[,] viewTankSkin = new char[ConstantValue.HEIGHT_TANK, ConstantValue.WIDTH_TANK];
-
-            switch (skin)
-            {
-                case SkinTank.Light:
-                    GetViewLeftTank(viewTankSkin,
-                        ' ', ' ', '\x25A0', '\x2500', '\x2500', '\x2588', '*');
-                    break;
-                case SkinTank.Heavy:
-                    GetViewLeftTank(viewTankSkin,
-                        '\x2559', '\x2556', '\x25A0', '\x2500', '\x2588', '\x2588', '\x2588');
-                    break;
-                case SkinTank.Destroy:
-                    GetViewLeftTank(viewTankSkin,
-                        '#', '#', '\x25A0', '\x2500', '\x2500', '\x2588', '\x2588');
-                    break;
-                case SkinTank.NoSkin:
-                    break;
-            }
-
-            return viewTankSkin;
-        }
-
-        public char[,] CreateRightSkin(SkinTank skin)
-        {
-            char[,] viewTankSkin = new char[ConstantValue.HEIGHT_TANK, ConstantValue.WIDTH_TANK];
-
-            switch (skin)
-            {
-                case SkinTank.Light:
-                    GetViewRightTank(viewTankSkin,
-                        ' ', ' ', '\x25A0', '\x2500', '\x2500', '\x2588', '*');
-                    break;
-                case SkinTank.Heavy:
-                    GetViewRightTank(viewTankSkin,
-                        '\x2559', '\x2556', '\x25A0', '\x2500', '\x2588', '\x2588', '\x2588');
-                    break;
-                case SkinTank.Destroy:
-                    GetViewRightTank(viewTankSkin,
-                        '#', '#', '\x25A0', '\x2500', '\x2500', '\x2588', '\x2588');
-                    break;
-                case SkinTank.NoSkin:
-                    break;
-            }
-
-            return viewTankSkin;
-        }
-
-        public char[,] CreateUpSkin(SkinTank skin)
-        {
-            char[,] viewTankSkin = new char[ConstantValue.HEIGHT_TANK, ConstantValue.WIDTH_TANK];
-
-            switch (skin)
-            {
-                case SkinTank.Light:
-                    GetViewUpTank(viewTankSkin,
-                        ' ', ' ', '\x25A0', '\x2502', '\x2502', '\x2588', '*');
-                    break;
-                case SkinTank.Heavy:
-                    GetViewUpTank(viewTankSkin,
-                        '\x255A', '\x255D', '\x25A0', '\x2502', '\x2588', '\x2588', '\x2588');
-                    break;
-                case SkinTank.Destroy:
-                    GetViewUpTank(viewTankSkin,
-                        '#', '#', '\x25A0', '\x2502', '\x2502', '\x2588', '\x2588');
-                    break;
-                case SkinTank.NoSkin:
-                    break;
-            }
-
-            return viewTankSkin;
-        }
-
-        public char[,] CreateDownSkin(SkinTank skin)
-        {
-            char[,] viewTankSkin = new char[ConstantValue.HEIGHT_TANK, ConstantValue.WIDTH_TANK];
-
-            switch (skin)
-            {
-                case SkinTank.Light:
-                    GetViewDownTank(viewTankSkin,
-                        ' ', ' ', '\x25A0', '\x2502', '\x2502', '\x2588', '*');
-                    break;
-                case SkinTank.Heavy:
-                    GetViewDownTank(viewTankSkin,
-                        '\x255A', '\x255D', '\x25A0', '\x2502', '\x2588', '\x2588', '\x2588');
-                    break;
-                case SkinTank.Destroy:
-                    GetViewDownTank(viewTankSkin,
-                        '#', '#', '\x25A0', '\x2502', '\x2502', '\x2588', '\x2588');
-                    break;
-                case SkinTank.NoSkin:
-                    break;
-            }
-
-            return viewTankSkin;
-        }
-
-        public char[,] GetViewLeftTank(char[,] leftAndRightView,
-            char leftHarp, char RightHarp, char tankHatch, char tankBarrel, char befforBarrel,
-            char tankLining, char elseLining)
-        {
-            for (int row = 0; row < leftAndRightView.GetLength(0); row++)
-            {
-                for (int col = 0; col < leftAndRightView.GetLength(1); col++)
-                {
-                    if (row == 0)
-                    {
-                        leftAndRightView[row, col] = leftHarp;
-                    }
-                    if (row == leftAndRightView.GetLength(0) - 1)
-                    {
-                        leftAndRightView[row, col] = RightHarp;
-                    }
-                    if ((row == 1) || (row == leftAndRightView.GetLength(0) - 2))
-                    {
-                        leftAndRightView[row, col] = elseLining;
-                    }
-                    if (row == 2)
-                    {
-                        if (col == (leftAndRightView.GetLength(1) - 1)
-                            || (col == leftAndRightView.GetLength(1) - 2))
-                        {
-                            leftAndRightView[row, col] = tankLining;
-                        }
-                        if (row == col)
-                        {
-                            leftAndRightView[row, col] = tankHatch;
-                        }
-                        if (col == 0)
-                        {
-                            leftAndRightView[row, col] = tankBarrel;
-                        }
-                        if (col == 1)
-                        {
-                            leftAndRightView[row, col] = befforBarrel;
-                        }
-                    }
-                }
-            }
-
-            return leftAndRightView;
-        }
-
-        public char[,] GetViewRightTank(char[,] leftAndRightView,
-            char leftHarp, char RightHarp, char tankHatch, char tankBarrel, char befforBarrel,
-            char tankLining, char elseLining)
-        {
-            for (int row = 0; row < leftAndRightView.GetLength(0); row++)
-            {
-                for (int col = 0; col < leftAndRightView.GetLength(1); col++)
-                {
-                    if (row == 0)
-                    {
-                        leftAndRightView[row, col] = leftHarp;
-                    }
-                    if (row == leftAndRightView.GetLength(0) - 1)
-                    {
-                        leftAndRightView[row, col] = RightHarp;
-                    }
-                    if ((row == 1) || (row == leftAndRightView.GetLength(0) - 2))
-                    {
-                        leftAndRightView[row, col] = elseLining;
-                    }
-                    if (row == 2)
-                    {
-                        if ((col == 0) || (col == 1))
-                        {
-                            leftAndRightView[row, col] = tankLining;
-                        }
-                        if (row == col)
-                        {
-                            leftAndRightView[row, col] = tankHatch;
-                        }
-                        if (col == (leftAndRightView.GetLength(1) - 1))
-                        {
-                            leftAndRightView[row, col] = tankBarrel;
-                        }
-                        if ((col == leftAndRightView.GetLength(1) - 2))
-                        {
-                            leftAndRightView[row, col] = befforBarrel;
-                        }
-                    }
-                }
-            }
-
-            return leftAndRightView;
-        }
-
-        public char[,] GetViewDownTank(char[,] upAndDownView,
-            char leftHarp, char RightHarp, char tankHatch, char tankBarrel, char befforBarrel,
-            char tankLining, char elseLining)
-        {
-            for (int row = 0; row < upAndDownView.GetLength(0); row++)
-            {
-                for (int col = 0; col < upAndDownView.GetLength(1); col++)
-                {
-                    if (col == 0)
-                    {
-                        upAndDownView[row, col] = leftHarp;
-                    }
-                    if (col == upAndDownView.GetLength(1) - 1)
-                    {
-                        upAndDownView[row, col] = RightHarp;
-                    }
-                    if ((col == 1) || (col == upAndDownView.GetLength(0) - 2))
-                    {
-                        upAndDownView[row, col] = elseLining;
-                    }
-                    if (col == 2)
-                    {
-                        if ((row == 0) || (row == 1))
-                        {
-                            upAndDownView[row, col] = tankLining;
-                        }
-                        if (row == col)
-                        {
-                            upAndDownView[row, col] = tankHatch;
-                        }
-                        if (row == (upAndDownView.GetLength(1) - 1))
-                        {
-                            upAndDownView[row, col] = tankBarrel;
-                        }
-                        if ((row == upAndDownView.GetLength(1) - 2))
-                        {
-                            upAndDownView[row, col] = befforBarrel;
-                        }
-                    }
-                }
-            }
-
-            return upAndDownView;
-        }
-
-        public char[,] GetViewUpTank(char[,] upAndDownView,
-            char leftHarp, char RightHarp, char tankHatch, char tankBarrel, char befforBarrel,
-            char tankLining, char elseLining)
-        {
-            for (int row = 0; row < upAndDownView.GetLength(0); row++)
-            {
-                for (int col = 0; col < upAndDownView.GetLength(1); col++)
-                {
-                    if (col == 0)
-                    {
-                        upAndDownView[row, col] = leftHarp;
-                    }
-                    if (col == upAndDownView.GetLength(1) - 1)
-                    {
-                        upAndDownView[row, col] = RightHarp;
-                    }
-                    if ((col == 1) || (col == upAndDownView.GetLength(0) - 2))
-                    {
-                        upAndDownView[row, col] = elseLining;
-                    }
-                    if (col == 2)
-                    {
-                        if (row == (upAndDownView.GetLength(1) - 1)
-                            || (row == upAndDownView.GetLength(1) - 2))
-                        {
-                            upAndDownView[row, col] = tankLining;
-                        }
-                        if (row == col)
-                        {
-                            upAndDownView[row, col] = tankHatch;
-                        }
-                        if (row == 0)
-                        {
-                            upAndDownView[row, col] = tankBarrel;
-                        }
-                        if (row == 1)
-                        {
-                            upAndDownView[row, col] = befforBarrel;
-                        }
-                    }
-                }
-            }
-
-            return upAndDownView;
-        }
-
-        #endregion
+        #endregion          
     }
 }

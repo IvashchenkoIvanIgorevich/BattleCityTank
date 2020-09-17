@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 using CommonLib;
 
@@ -126,6 +127,9 @@ namespace UIConsole
             Console.SetCursorPosition(ConstantValue.HEIGHT_GAMEFIELD / 2 - 3, topPause
                 + ConstantValue.TOP_FIRE);
             Console.WriteLine("       \"SPACE\" TO FIRE ");
+            Console.SetCursorPosition(ConstantValue.HEIGHT_GAMEFIELD / 2 - 3, topPause
+                + ConstantValue.TOP_LOAD);
+            Console.WriteLine("       \"L\" TO LOAD THE GAME ");
             Console.ResetColor();
         }
 
@@ -170,7 +174,7 @@ namespace UIConsole
                     {
                         Console.SetCursorPosition(col, row);
 
-                        Console.Write(_controller[row,col]);
+                        Console.Write(_controller[row, col]);
 
                         _buffer[row, col] = _controller[row, col];
                     }
@@ -178,6 +182,22 @@ namespace UIConsole
             }
 
             //Console.ResetColor();
+        }
+
+        public void PrintGameFieldToFile()
+        {
+            using (StreamWriter sw = File.CreateText(ConstantValue.PATH_FILE))
+            {
+                for (int row = 1; row < ConstantValue.HEIGHT_GAMEFIELD - 1; row++)
+                {
+                    for (int col = 1; col < ConstantValue.WIDTH_GAMEFIELD - 1; col++)
+                    {
+                        sw.Write(_controller[row, col]);
+                    }
+
+                    sw.WriteLine();
+                }
+            }
         }
 
         #endregion

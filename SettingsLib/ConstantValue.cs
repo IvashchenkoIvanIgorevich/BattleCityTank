@@ -9,6 +9,7 @@ namespace CommonLib
     public static class ConstantValue
     {
         public const int TOP_MAIN_MENU = 55;
+        public const int MAX_NUM_BULLETS = 100; 
         public const int LEFT_MAIN_MENU = 0;
         public const int LEFT_STAT_MENU = 78;
         public const int TOP_STAT_MENU = 53;
@@ -66,12 +67,17 @@ namespace CommonLib
         public const int TOP_UP_ARROW = 6;
         public const int TOP_DOWN_ARROW = 8;
         public const int TOP_FIRE = 10;
+        public const int TOP_LOAD = 12;
         public const int WIDTH_BLOCK = 5;
         public const int HEIGHT_BLOCK = 5;
         public const int NUM_ALL_ENEMY = 10;
         public const int NUM_DIRECTION = 4;
         public const int NUM_RND_ACTION_ENEMY = 3;
         public const int NUM_ENEMY_ON_FIELD = 3;
+        public const string PATH_FILE = "..\\..\\ImgTank\\ViewGameField.txt";
+        public const string PATH_FILE_LIGHTTANK = @"..\..\ImgTank\ViewLightTank.txt";
+        public const string PATH_FILE_HEAVYTANK = @"..\..\ImgTank\ViewHeavyTank.txt";
+        public const string PATH_FILE_DESTROYTANK = @"..\..\ImgTank\ViewDestroyTank.txt";
         public const char BRICK_BLOCK = '\u25A0';
         public const char METAL_BLOCK = '\u2588';
         public const char GRASS_BLOCK = '\u2593';

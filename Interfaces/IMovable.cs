@@ -8,7 +8,7 @@ namespace _20200613_TankLibrary
 {
     public interface IMovable
     {
-        void Move(ActionPlayer actionPlayer);
+        void Move(ActionPlayer actionPlayer = ActionPlayer.NoAction);
         bool IsPermitMove();
     }
 }

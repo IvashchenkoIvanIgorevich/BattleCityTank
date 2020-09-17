@@ -12,8 +12,8 @@ namespace _20200613_TankLibrary
 
         void DeleteGameObj(Coordinate coordinateDelete);
 
-        void AddGameObj(Coordinate objCoor, GameObject objAdd);
-
         bool IsContain(Coordinate coordinateContain);
+
+        void DeleteBullet(Bullet delBullet);    // delete bullet from List<Bullet> in class Bullet
     }
 }

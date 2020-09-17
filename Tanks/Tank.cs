@@ -94,19 +94,19 @@ namespace _20200613_TankLibrary
 
                     for (int row = playerTank.Position.PosX; row < ConstantValue.HEIGHT_TANK + playerTank.Position.PosX; row++)
                     {
-                        _owner.AddGameObj(new Coordinate(row, tempForMove.PosY), playerTank);
+                        _owner[new Coordinate(row, tempForMove.PosY)] = playerTank;
                     }
                     break;
                 case Direction.Left:
                     for (int row = playerTank.Position.PosX; row < ConstantValue.HEIGHT_TANK + playerTank.Position.PosX; row++)
                     {
-                        _owner.AddGameObj(new Coordinate(row, tempForMove.PosY), playerTank);
+                        _owner[new Coordinate(row, tempForMove.PosY)] = playerTank;
                     }
                     break;
                 case Direction.Up:
                     for (int col = playerTank.Position.PosY; col < ConstantValue.WIDTH_TANK + tempForMove.PosY; col++)
                     {
-                        _owner.AddGameObj(new Coordinate(tempForMove.PosX, col), playerTank);
+                        _owner[new Coordinate(tempForMove.PosX, col)] = playerTank;
                     }
                     break;
                 case Direction.Down:
@@ -114,7 +114,7 @@ namespace _20200613_TankLibrary
 
                     for (int col = playerTank.Position.PosY; col < ConstantValue.WIDTH_TANK + playerTank.Position.PosY; col++)
                     {
-                        _owner.AddGameObj(new Coordinate(tempForMove.PosX, col), playerTank);
+                        _owner[new Coordinate(tempForMove.PosX, col)] = playerTank;
                     }
                     break;
             }
