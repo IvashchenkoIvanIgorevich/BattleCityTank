@@ -70,11 +70,11 @@ namespace UIConsole
 
                     if (actionPlayer == ActionPlayer.PressFire)
                     {
-                        controller.FirePlayer();
+                        controller.ShotPlayer();
                     }
                 }
 
-                if (gameTime % ConstantValue.TIME_MOVE_ENEMY == 0)
+                if (gameTime % ConstantValue.TIME_MOVE_ENEMY == 0)    // moving enemies on game field
                 {
                     if (gameTime % ConstantValue.TIME_DIRECT_ENEMY == 0)
                     {
@@ -84,17 +84,22 @@ namespace UIConsole
                     controller.MoveEnemy(actionEnemy);
                 }
 
-                if (actionPlayer == ActionPlayer.PressSave)
+                if (gameTime % ConstantValue.TIME_CREATE_BULLET == 0)
+                {
+                    controller.ShotEnemies();
+                }
+
+                if (actionPlayer == ActionPlayer.PressSave)    // take screenshot 
                 {
                     viewConsole.PrintGameFieldToFile();
                 }
 
-                if (gameTime % ConstantValue.TIME_MOVE_BULLET == 0)
+                if (gameTime % ConstantValue.TIME_MOVE_BULLET == 0)    // moving bullets on game field
                 {
                     controller.MoveBullets();
                 }
 
-                viewConsole.PrintGameField();
+                viewConsole.PrintGameField();    
 
                 ++gameTime;
                 System.Threading.Thread.Sleep(ConstantValue.TIME_SLEEP);

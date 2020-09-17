@@ -10,11 +10,17 @@ namespace _20200613_TankLibrary
 {
     public class EnemyTank : Tank
     {
+        #region ===--- Constructor ---===
+
         public EnemyTank(CharacterTank character, Direction direction,
             Coordinate coordinate, ColorSkin skin, IField gameField)
             : base(character, direction, coordinate, skin, gameField)
         {
         }
+
+        #endregion
+
+        #region ===--- Override properties ---===
 
         public override ObjectType KindOfObject
         {
@@ -24,7 +30,11 @@ namespace _20200613_TankLibrary
             }
         }
 
-        public void StrategyAtackObject(Coordinate coordinateAtackObj)
+        #endregion
+
+        #region ===--- Methods for move ---===
+
+        public void StrategyAtackObject(Coordinate coordinateAtackObj)    // can be pattern IStrategy
         {
             Coordinate previousPosition = new Coordinate(Position);
             Coordinate afterPosition = new Coordinate(Position);
@@ -109,5 +119,17 @@ namespace _20200613_TankLibrary
 
             return actionsEnemy;
         }
+
+        #endregion
+
+        #region ===--- Methods permit shot---===
+
+        public bool IsPermitShot(Coordinate atackCoordinate)
+        {
+            return (CharacterTank.AtckRng > Math.Min(Position.GetDeltaHeight(atackCoordinate),
+                Position.GetDeltaWidth(atackCoordinate)));
+        }
+
+        #endregion
     }
 }

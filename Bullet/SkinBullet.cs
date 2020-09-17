@@ -9,7 +9,7 @@ namespace _20200613_TankLibrary
     public enum SkinBullet
     {
         NoSkin,
-        Metal,
-        Fire
+        ArmorPiercing,    // бронебоный сняряд
+        Cumulative    // кумулятывный сняряд (пробивает желехобетонные сооружения)
     }
 }

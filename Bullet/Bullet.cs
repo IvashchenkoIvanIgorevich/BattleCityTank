@@ -84,7 +84,7 @@ namespace _20200613_TankLibrary
                 AtackSpeed = bulletTank.CharacterTank.AtckSp;
                 AtackDamage = bulletTank.CharacterTank.AtckDmg;
                 IsBotBullet = (bulletTank is EnemyTank);
-                Skin = SkinBullet.Metal;
+                Skin = SkinBullet.ArmorPiercing;
                 Direction = bulletTank.DirectionTank;
 
                 _owner[newBulletCoord] = this;

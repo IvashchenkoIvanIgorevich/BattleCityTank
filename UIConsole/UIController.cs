@@ -76,9 +76,14 @@ namespace UIConsole
             }
         }
 
-        public void FirePlayer()
+        public void ShotPlayer()
         {
             _gameField.AddPlayerBullet();
+        }
+
+        public void ShotEnemies()
+        {
+            _gameField.AddEnemiesBullet();
         }
 
         public void MoveBullets()

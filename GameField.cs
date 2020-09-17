@@ -64,25 +64,9 @@ namespace _20200613_TankLibrary
             }
         }
 
-        internal Bullet AddBullet
-        {
-            set
-            {
-                _bullets.Add(value);
-            }
-        }
-
-        public List<Bullet> Bullets
-        {
-            get
-            {
-                return _bullets;
-            }
-        }
-
         #endregion
 
-        #region ===--- Methods ---===
+        #region ===--- Method MoveEnemies ---===
 
         public void MoveEnemies(ActionPlayer[] actionEnemies)
         {
@@ -115,6 +99,10 @@ namespace _20200613_TankLibrary
             }
         }
 
+        #endregion
+
+        #region ===--- Method MoveBullets ---===
+
         public void MoveBullets()
         {
             if (_bullets.Count != 0)
@@ -123,7 +111,11 @@ namespace _20200613_TankLibrary
 
                 foreach (Bullet bull in _bullets)
                 {
-                    _gameObjects.Remove(bull.Position);
+                    if (_gameObjects.ContainsKey(bull.Position) 
+                        && _gameObjects[bull.Position] is Bullet)    // TODO: удаляем только в том случае если она существует и она действительно Пуля иначе будет удалять все элементы которые на позиции
+                    {
+                        _gameObjects.Remove(bull.Position);
+                    }
 
                     if ((bull.Range <= 0) || !bull.Position.Move(bull.Direction))
                     {
@@ -132,7 +124,7 @@ namespace _20200613_TankLibrary
                     }
 
                     if (bull.IsPermitMove())
-                    {                        
+                    {
                         bull.Move();
                     }
                     else
@@ -148,28 +140,30 @@ namespace _20200613_TankLibrary
             }
         }
 
-        public void SetDamageToObject(Bullet damageBullet, List<Bullet> delBull)
+        public void SetDamageToObject(Bullet dmgBullet, List<Bullet> delBull)
         {
-            switch (this[damageBullet.Position].KindOfObject)
+            switch (this[dmgBullet.Position].KindOfObject)
             {
                 case ObjectType.PlayerTank:
-                    if (damageBullet.IsBotBullet)
+                    if (dmgBullet.IsBotBullet)
                     {
-                        Player.CharacterTank.HP -= damageBullet.AtackDamage;
-                        delBull.Add(damageBullet);
+                        Player.CharacterTank.HP -= dmgBullet.AtackDamage;
+                        delBull.Add(dmgBullet);
                     }
                     break;
                 case ObjectType.EnemyTank:
-                    if (!damageBullet.IsBotBullet)
+                    if (!dmgBullet.IsBotBullet)
                     {
-                        ((EnemyTank)this[damageBullet.Position]).CharacterTank.HP
-                            -= damageBullet.AtackDamage;
-                        delBull.Add(damageBullet);
+                        ((EnemyTank)this[dmgBullet.Position]).CharacterTank.HP
+                            -= dmgBullet.AtackDamage;
+                        delBull.Add(dmgBullet);
                     }
                     break;
                 case ObjectType.Base:
                     break;
                 case ObjectType.Bullet:
+                    _gameObjects.Remove(dmgBullet.Position);
+                    delBull.Add(dmgBullet);
                     break;
                 case ObjectType.BrickBlock:
                     break;
@@ -184,13 +178,33 @@ namespace _20200613_TankLibrary
             }
         }
 
+        #endregion
+
+        #region ===--- Method AddBullets ---===
+
         public void AddPlayerBullet()
         {
-            Bullet newBullet = new Bullet(this);
+            Bullet newBullet = new Bullet(this);    //TODO
 
             if (newBullet.CreateBullet(Player))
             {
                 _bullets.Add(newBullet);
+            }
+        }
+
+        public void AddEnemiesBullet()
+        {
+            foreach (EnemyTank item in _enemies)
+            {
+                if (item.IsPermitShot(Player.Position))
+                {
+                    Bullet newBullet = new Bullet(this);    // TODO
+
+                    if (newBullet.CreateBullet(item))
+                    {
+                        _bullets.Add(newBullet);
+                    }
+                }
             }
         }
 

@@ -123,6 +123,16 @@ namespace _20200613_TankLibrary
             return isPermit;
         }
 
+        public int GetDeltaWidth(Coordinate checkCoordinate)
+        {
+            return Math.Abs(PosY - checkCoordinate.PosY);
+        }
+
+        public int GetDeltaHeight(Coordinate checkCoordinate)
+        {
+            return Math.Abs(PosX - checkCoordinate.PosX);
+        }
+
         #endregion
 
         #region ===--- Ovveride Methods ---===
