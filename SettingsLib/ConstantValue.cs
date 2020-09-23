@@ -75,9 +75,10 @@ namespace CommonLib
         public const int NUM_RND_ACTION_ENEMY = 3;
         public const int NUM_ENEMY_ON_FIELD = 3;
         public const string PATH_FILE = "..\\..\\ImgTank\\ViewGameField.txt";
-        public const string PATH_FILE_LIGHTTANK = @"..\..\ImgTank\ViewLightTank.txt";
-        public const string PATH_FILE_HEAVYTANK = @"..\..\ImgTank\ViewHeavyTank.txt";
-        public const string PATH_FILE_DESTROYTANK = @"..\..\ImgTank\ViewDestroyTank.txt";
+        public const string PATH_FILE_LIGHTTANK = "..\\..\\ImgTank\\ViewLightTank.txt";
+        public const string PATH_FILE_HEAVYTANK = "..\\..\\ImgTank\\ViewHeavyTank.txt";
+        public const string PATH_FILE_DESTROYTANK = "..\\..\\ImgTank\\ViewDestroyTank.txt";
+        public const string PATH_FILE_SAVE_GAME = "..\\..\\SaveGames\\Save.dat";
         public const char BRICK_BLOCK = '\u25A0';
         public const char METAL_BLOCK = '\u2588';
         public const char GRASS_BLOCK = '\u2593';

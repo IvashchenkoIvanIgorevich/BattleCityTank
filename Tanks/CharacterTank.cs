@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace _20200613_TankLibrary
 {
+    [Serializable]
     public class CharacterTank
     {
         #region ===--- Dataset ---===

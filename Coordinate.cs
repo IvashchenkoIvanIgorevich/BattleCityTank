@@ -8,6 +8,7 @@ using CommonLib;
 
 namespace _20200613_TankLibrary
 {
+    [Serializable]
     public class Coordinate  //not struct because Equals and GetHashCode
     {
         #region ===--- Date ---===

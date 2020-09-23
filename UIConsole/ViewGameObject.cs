@@ -98,6 +98,29 @@ namespace UIConsole
 
         #endregion       
 
+        public char GetViewBlock(SkinBlock skin)
+        {
+            char resultView = ' ';
+
+            switch (skin)
+            {
+                case SkinBlock.Brick:
+                    resultView = ConstantValue.BRICK_BLOCK;
+                    break;
+                case SkinBlock.Metal:
+                    resultView = ConstantValue.METAL_BLOCK;
+                    break;
+                case SkinBlock.Grass:
+                    resultView = ConstantValue.GRASS_BLOCK;
+                    break;
+                case SkinBlock.Ice:
+                    resultView = ConstantValue.ICE_BLOCK;
+                    break;
+            }
+
+            return resultView;
+        }
+
         #region ===--- CreateViewBase ---===
 
         public char[,] GetViewBase(int height = ConstantValue.HEIGHT_BASE,

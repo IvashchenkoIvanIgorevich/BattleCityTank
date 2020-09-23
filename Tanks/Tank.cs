@@ -8,6 +8,7 @@ using CommonLib;
 
 namespace _20200613_TankLibrary
 {
+    [Serializable]
     public class Tank : GameObject, IMovable
     {
         #region ===--- Dataset ---===
@@ -175,12 +176,15 @@ namespace _20200613_TankLibrary
                 for (int permitRow = permitCoordinate.PosX; permitRow < ConstantValue.HEIGHT_TANK
                         + permitCoordinate.PosX; permitRow++)
                 {
-                    tempForMove.PosX = permitRow;
+                    tempForMove.PosX = permitRow;                    
 
                     if (_owner.IsContain(tempForMove))
                     {
-                        permitOk = false;
-                        break;
+                        if (!(_owner[tempForMove] is GrassBlock))
+                        {
+                            permitOk = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -193,8 +197,11 @@ namespace _20200613_TankLibrary
 
                     if (_owner.IsContain(tempForMove))
                     {
-                        permitOk = false;
-                        break;
+                        if (!(_owner[tempForMove] is GrassBlock))
+                        {
+                            permitOk = false;
+                            break;
+                        }
                     }
                 }
             }

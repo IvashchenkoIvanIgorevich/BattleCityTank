@@ -8,6 +8,7 @@ using CommonLib;
 
 namespace _20200613_TankLibrary
 {
+    [Serializable]
     public class PlayerTank : Tank
     {
         public PlayerTank(CharacterTank character, Direction direction,

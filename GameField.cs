@@ -8,6 +8,7 @@ using CommonLib;
 
 namespace _20200613_TankLibrary
 {
+    [Serializable]
     public class GameField : IField
     {
         #region ===--- Dataset ---===
@@ -21,6 +22,7 @@ namespace _20200613_TankLibrary
         private Coordinate _coordinateBase = new Coordinate(ConstantValue.POS_ROW_BASE, 
             ConstantValue.POS_COL_BASE);
         private List<Bullet> _bullets = new List<Bullet>(ConstantValue.MAX_NUM_BULLETS);
+        private SaveOrLoad saveLoad { get; set; }
 
         #endregion
 
@@ -30,6 +32,7 @@ namespace _20200613_TankLibrary
         {
             Width = fieldWidth;
             Height = fieldHeight;
+            saveLoad = new SaveOrLoad(this);
         }
 
         #endregion
@@ -166,12 +169,16 @@ namespace _20200613_TankLibrary
                     delBull.Add(dmgBullet);
                     break;
                 case ObjectType.BrickBlock:
+                    _gameObjects.Remove(dmgBullet.Position);
+                    delBull.Add(dmgBullet);
                     break;
                 case ObjectType.GrassBlock:
                     break;
                 case ObjectType.IceBlock:
                     break;
                 case ObjectType.MetalBlock:
+                    _gameObjects.Remove(dmgBullet.Position);
+                    delBull.Add(dmgBullet);
                     break;
                 default:
                     break;
@@ -206,6 +213,15 @@ namespace _20200613_TankLibrary
                     }
                 }
             }
+        }
+
+        #endregion
+
+        #region ===--- Method Save And Load Game ---===
+
+        public void SaveFiled()
+        {
+            saveLoad.SaveTheGame();
         }
 
         #endregion
@@ -245,6 +261,23 @@ namespace _20200613_TankLibrary
             _bullets.Remove(delBullet);
         }
 
+        public void AddBullet(Bullet addBullet)
+        {
+            _bullets.Add(addBullet);
+        }
+
         #endregion
+
+        public GameField GetCopy()
+        {
+            GameField copyGF = new GameField(ConstantValue.WIDTH_GAMEFIELD,
+                ConstantValue.HEIGHT_GAMEFIELD);
+
+            copyGF.Width = Width;
+            copyGF.Height = Height;
+
+
+            return copyGF;
+        }
     }
 }

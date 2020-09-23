@@ -15,6 +15,8 @@ namespace UIConsole
 
         private char[,] _buffer = new char[ConstantValue.HEIGHT_GAMEFIELD,
             ConstantValue.WIDTH_GAMEFIELD];
+        private char[,] _tempBuffer = new char[ConstantValue.HEIGHT_GAMEFIELD,
+            ConstantValue.WIDTH_GAMEFIELD];
         private UIController _controller;
 
         #endregion
@@ -176,7 +178,7 @@ namespace UIConsole
 
                         Console.Write(_controller[row, col]);
 
-                        _buffer[row, col] = _controller[row, col];
+                        _buffer[row, col] = _controller[row, col];                 
                     }
                 }
             }

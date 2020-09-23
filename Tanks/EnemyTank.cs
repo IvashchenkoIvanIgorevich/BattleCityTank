@@ -8,6 +8,7 @@ using CommonLib;
 
 namespace _20200613_TankLibrary
 {
+    [Serializable]
     public class EnemyTank : Tank
     {
         #region ===--- Constructor ---===

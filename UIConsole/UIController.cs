@@ -19,6 +19,14 @@ namespace UIConsole
             _gameField = field;
         }
 
+        public GameField SetGameField
+        {
+            set 
+            {
+                _gameField = value;
+            }
+        }
+
         public ActionPlayer GetActionPlayer(ConsoleKey pressKey)
         {
             ActionPlayer pressPlayer = ActionPlayer.NoAction;
@@ -91,6 +99,11 @@ namespace UIConsole
             _gameField.MoveBullets();
         }
 
+        public void SaveGame()
+        {
+            _gameField.SaveFiled();
+        }
+
         public char this[int row, int col]
         {
             get
@@ -120,13 +133,17 @@ namespace UIConsole
                         case ObjectType.Base:
                             //tempView[row, col] = ViewGameObject.GetViewBase()[objRow, objCol];
                             break;
-                        case ObjectType.BrickBlock:                          
+                        case ObjectType.BrickBlock:
+                            resultSymbol = _viewObj.GetViewBlock(((BrickBlock)_gameField[tempCoor]).Skin);
                             break;
                         case ObjectType.GrassBlock:
+                            resultSymbol = _viewObj.GetViewBlock(((GrassBlock)_gameField[tempCoor]).Skin);
                             break;
                         case ObjectType.IceBlock:
+                            resultSymbol = _viewObj.GetViewBlock(((IceBlock)_gameField[tempCoor]).Skin);
                             break;
                         case ObjectType.MetalBlock:
+                            resultSymbol = _viewObj.GetViewBlock(((MetalBlock)_gameField[tempCoor]).Skin);
                             break;
                         case ObjectType.Bullet:
                             resultSymbol = ConstantValue.BULLET;

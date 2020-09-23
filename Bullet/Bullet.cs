@@ -8,6 +8,7 @@ using CommonLib;
 
 namespace _20200613_TankLibrary
 {
+    [Serializable]
     public class Bullet : GameObject, IMovable
     {
         #region ===--- Data ---===
@@ -71,7 +72,8 @@ namespace _20200613_TankLibrary
                     break;
             }
 
-            if (!Position.IsPermitMoveCoordinate(bulletTank.DirectionTank) || _owner.IsContain(Position))
+            if (!Position.IsPermitMoveCoordinate(bulletTank.DirectionTank) 
+                || (_owner.IsContain(Position)))
             {
                 isCreate = false;
             }
@@ -87,15 +89,17 @@ namespace _20200613_TankLibrary
                 Skin = SkinBullet.ArmorPiercing;
                 Direction = bulletTank.DirectionTank;
 
-                _owner[newBulletCoord] = this;
+                if (_owner.IsContain(Position) && !((Block)_owner[Position]).IsBrickBlock())
+                {
+                    _owner.AddBullet(this);
+                }
+                else
+                {
+                    _owner[newBulletCoord] = this;
+                } 
             }
 
             return isCreate;
-        }
-
-        public void MoveUnderObj()
-        {
-            
         }
 
         #endregion

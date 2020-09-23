@@ -41,14 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InitialisationSaveGame.cs" />
+    <Compile Include="Interfaces\ILoader.cs" />
+    <Compile Include="SaveOrLoad.cs" />
+    <Compile Include="Blocks\Block.cs" />
+    <Compile Include="Blocks\BrickBlock.cs" />
     <Compile Include="Bullet\Bullet.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="Bullet\SkinBullet.cs" />
+    <Compile Include="Blocks\GrassBlock.cs" />
+    <Compile Include="Blocks\IceBlock.cs" />
+    <Compile Include="Blocks\MetalBlock.cs" />
     <Compile Include="Tanks\EnemyTank.cs" />
     <Compile Include="Enums\ActionPlayer.cs" />
     <Compile Include="GameField.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="Initialisator.cs" />
+    <Compile Include="InitialisationNewGame.cs" />
     <Compile Include="Interfaces\IMovable.cs" />
     <Compile Include="Interfaces\IField.cs" />
     <Compile Include="Enums\ObjectType.cs" />

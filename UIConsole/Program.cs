@@ -15,9 +15,12 @@ namespace UIConsole
         {
             bool exit = false;
             ulong gameTime = 0;
+            bool init = true;
 
             GameField newGameField = new GameField(ConstantValue.WIDTH_GAMEFIELD,
                 ConstantValue.HEIGHT_GAMEFIELD);
+
+            ILoader initGame = null;
 
             UIController controller = new UIController(newGameField);
             UIView viewConsole = new UIView(controller);
@@ -35,12 +38,23 @@ namespace UIConsole
 
             if (actionPlayer == ActionPlayer.PressLoad)
             {
-
+                init = false;
             }
 
-            if (ActionPlayer.PressEnter.HasFlag(actionPlayer))
+            if (ActionPlayer.PressEnter.HasFlag(actionPlayer)
+                || ActionPlayer.PressLoad.HasFlag(actionPlayer))
             {
-                Initialisator initGame = new Initialisator(newGameField);
+                if (init)
+                {
+                    initGame = new InitialisationNewGame(newGameField);
+                }
+                else
+                {
+                    initGame = new InitialisationSaveGame(newGameField);
+                }
+
+                newGameField = initGame.LoadGame();
+                controller.SetGameField = newGameField;     //TODO: после загрузки в LoadGame() newGameField не передеается в UIController ? 
                 viewConsole.PrintGameBorder();
                 //viewGame.PrintGameField(initGame.Field);
                 //viewGame.PrintRigthBar(initGame.Field);
@@ -92,6 +106,7 @@ namespace UIConsole
                 if (actionPlayer == ActionPlayer.PressSave)    // take screenshot 
                 {
                     viewConsole.PrintGameFieldToFile();
+                    controller.SaveGame();
                 }
 
                 if (gameTime % ConstantValue.TIME_MOVE_BULLET == 0)    // moving bullets on game field

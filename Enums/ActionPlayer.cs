@@ -21,6 +21,6 @@ namespace _20200613_TankLibrary
         PressSave = 0x100,
         PressLoad = 0x200,
         MoveAction = PressRight | PressLeft | PressUp | PressDown,
-        StartAction = PressEnter | PressExit
+        StartAction = PressEnter | PressExit | PressLoad
     }
 }

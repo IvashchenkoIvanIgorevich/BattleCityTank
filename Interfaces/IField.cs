@@ -15,5 +15,7 @@ namespace _20200613_TankLibrary
         bool IsContain(Coordinate coordinateContain);
 
         void DeleteBullet(Bullet delBullet);    // delete bullet from List<Bullet> in class Bullet
+
+        void AddBullet(Bullet addBullet);
     }
 }
