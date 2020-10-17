@@ -43,7 +43,7 @@ namespace _20200613_TankLibrary
 
         #region ===--- Methods ---===
 
-        private void DeletePrePosition(Coordinate prePosition)
+        internal void DeletePrePosition(Coordinate prePosition)
         {
             Coordinate coorForMove = new Coordinate(prePosition);
 
@@ -128,6 +128,17 @@ namespace _20200613_TankLibrary
                 for (int j = Position.PosY; j < ConstantValue.WIDTH_TANK + Position.PosY; j++)
                 {
                     _owner[new Coordinate(i, j)] = this;
+                }
+            }
+        }
+
+        public void DeleteTank()
+        {
+            for (int i = Position.PosX; i < ConstantValue.HEIGHT_TANK + Position.PosX; i++)
+            {
+                for (int j = Position.PosY; j < ConstantValue.WIDTH_TANK + Position.PosY; j++)
+                {
+                    _owner.DeleteGameObj(new Coordinate(i, j));
                 }
             }
         }

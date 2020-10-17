@@ -13,7 +13,8 @@ namespace _20200613_TankLibrary
         #region ===--- Constructor ---===
 
         public IceBlock(Coordinate position, IField owner,
-            ColorSkin color = ColorSkin.White, SkinBlock skin = SkinBlock.Ice,
+            ColorSkin color = ConstantValue.COLOR_ICE_BLOCK,
+            SkinBlock skin = SkinBlock.Ice,
             char charSkin = ConstantValue.ICE_BLOCK)
             : base(position, color, skin, owner, charSkin)
         {

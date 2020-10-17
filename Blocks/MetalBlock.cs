@@ -14,7 +14,8 @@ namespace _20200613_TankLibrary
         #region ===--- Constructor ---===
 
         public MetalBlock(Coordinate position, IField owner,
-            ColorSkin color = ColorSkin.DarkGray, SkinBlock skin = SkinBlock.Metal,
+            ColorSkin color = ConstantValue.COLOR_METAL_BLOCK,
+            SkinBlock skin = SkinBlock.Metal,
             char charSkin = ConstantValue.METAL_BLOCK)
             : base(position, color, skin, owner, charSkin)
         {

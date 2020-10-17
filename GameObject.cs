@@ -14,7 +14,7 @@ namespace _20200613_TankLibrary
         #region ===--- Dataset ---===
 
         public Coordinate Position { get; internal set; }
-        public ColorSkin Color { get; protected set; }
+        public ColorSkin Color { get; internal set; }
         protected readonly IField _owner;    // IField
 
         #endregion

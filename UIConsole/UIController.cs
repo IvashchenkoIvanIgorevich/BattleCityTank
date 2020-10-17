@@ -104,6 +104,16 @@ namespace UIConsole
             _gameField.SaveFiled();
         }
 
+        public bool CheckEnemyDead()
+        {
+            return _gameField.CheckEnemiesTank();
+        }
+
+        public void CreateNewEnem()
+        {
+            _gameField.CreateEnemyByTime();
+        }
+
         public char this[int row, int col]
         {
             get
@@ -155,6 +165,19 @@ namespace UIConsole
 
                 return resultSymbol;
             }
+        }
+
+        public ColorSkin GetColorSkin(int row, int col)
+        {
+            Coordinate colorCoordinate = new Coordinate(row, col);
+            ColorSkin colorSkin = ColorSkin.NoColor;
+
+            if (_gameField.IsContain(colorCoordinate))
+            {
+                colorSkin = _gameField[colorCoordinate].Color;
+            }
+
+            return colorSkin;
         }
     }
 }

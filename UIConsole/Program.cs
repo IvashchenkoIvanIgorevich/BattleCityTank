@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 using _20200613_TankLibrary;
 using CommonLib;
@@ -54,12 +55,16 @@ namespace UIConsole
                 }
 
                 newGameField = initGame.LoadGame();
-                controller.SetGameField = newGameField;     //TODO: после загрузки в LoadGame() newGameField не передеается в UIController ? 
+                controller.SetGameField = newGameField;     //TODO: после загрузки в LoadGame() newGameField не передеается в UIController
                 viewConsole.PrintGameBorder();
-                //viewGame.PrintGameField(initGame.Field);
+
                 //viewGame.PrintRigthBar(initGame.Field);
                 //viewGame.PrintStatistic(initGame.Field,(PlayerTank)initGame.Field[initGame.Field.GetPlayerPosition(), initGame.Field.GetPlayerPosY()]);
             }
+
+            Stopwatch watch = new Stopwatch();
+
+            watch.Start();
 
             do
             {
@@ -82,7 +87,7 @@ namespace UIConsole
                         controller.MovePlayer(actionPlayer);
                     }
 
-                    if (actionPlayer == ActionPlayer.PressFire)
+                    if (actionPlayer == ActionPlayer.PressFire) 
                     {
                         controller.ShotPlayer();
                     }
@@ -90,7 +95,7 @@ namespace UIConsole
 
                 if (gameTime % ConstantValue.TIME_MOVE_ENEMY == 0)    // moving enemies on game field
                 {
-                    if (gameTime % ConstantValue.TIME_DIRECT_ENEMY == 0)
+                    if (gameTime % ConstantValue.TIME_DIRECT_ENEMY == 0)    // get random direction to enemies
                     {
                         actionEnemy = GameManager.GetRandomAction();                        
                     }
@@ -98,12 +103,12 @@ namespace UIConsole
                     controller.MoveEnemy(actionEnemy);
                 }
 
-                if (gameTime % ConstantValue.TIME_CREATE_BULLET == 0)
+                if (gameTime % ConstantValue.TIME_CREATE_BULLET == 0)    // shot enemies
                 {
                     controller.ShotEnemies();
                 }
 
-                if (actionPlayer == ActionPlayer.PressSave)    // take screenshot 
+                if (actionPlayer == ActionPlayer.PressSave)    // take screenshot and save game to *.dat
                 {
                     viewConsole.PrintGameFieldToFile();
                     controller.SaveGame();
@@ -112,6 +117,23 @@ namespace UIConsole
                 if (gameTime % ConstantValue.TIME_MOVE_BULLET == 0)    // moving bullets on game field
                 {
                     controller.MoveBullets();
+                }
+
+                if (controller.CheckEnemyDead())
+                {
+                    watch.Stop();
+
+                    string score = viewConsole.GetViewScore(watch.Elapsed.Minutes, watch.Elapsed.Seconds);
+
+                    viewConsole.PrintMessageTheGame("YOU WON", score, "PRESS \"ESC\" TO EXIT");                    
+
+                    exit = true;
+                }
+
+                if ((gameTime % ConstantValue.TIME_CREATE_NEW_ENEMY == 0)    // moving bullets on game field
+                    && (gameTime != 0))
+                {
+                    controller.CreateNewEnem();
                 }
 
                 viewConsole.PrintGameField();    

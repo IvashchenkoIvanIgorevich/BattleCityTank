@@ -11,11 +11,11 @@ using CommonLib;
 namespace _20200613_TankLibrary
 {
     [Serializable]
-    public class SaveOrLoad
+    public class SaveGame
     {
         private GameField _field;
 
-        public SaveOrLoad(GameField field)
+        public SaveGame(GameField field)
         {
             _field = field;            
         }

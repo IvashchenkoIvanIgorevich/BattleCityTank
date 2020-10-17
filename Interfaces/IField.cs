@@ -17,5 +17,7 @@ namespace _20200613_TankLibrary
         void DeleteBullet(Bullet delBullet);    // delete bullet from List<Bullet> in class Bullet
 
         void AddBullet(Bullet addBullet);
+
+        bool IsPermitCreateBullet(Bullet newBullet);    // for create bullet if new position bullet is block
     }
 }

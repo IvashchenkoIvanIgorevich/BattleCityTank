@@ -72,7 +72,7 @@ namespace CommonLib
         public const int HEIGHT_BLOCK = 5;
         public const int NUM_ALL_ENEMY = 10;
         public const int NUM_DIRECTION = 4;
-        public const int NUM_RND_ACTION_ENEMY = 3;
+        public const int NUM_RND_ACTION_ENEMY = 10;
         public const int NUM_ENEMY_ON_FIELD = 3;
         public const string PATH_FILE = "..\\..\\ImgTank\\ViewGameField.txt";
         public const string PATH_FILE_LIGHTTANK = "..\\..\\ImgTank\\ViewLightTank.txt";
@@ -85,5 +85,16 @@ namespace CommonLib
         public const char ICE_BLOCK = '\u2592';
         public const char BLOCK = '\u2588';
         public const char BULLET = '*';
+        public const ColorSkin COLOR_BRICK_BLOCK = ColorSkin.Gray;
+        public const ColorSkin COLOR_METAL_BLOCK = ColorSkin.DarkGray;
+        public const ColorSkin COLOR_GRASS_BLOCK = ColorSkin.Green;
+        public const ColorSkin COLOR_ICE_BLOCK = ColorSkin.White;
+        public const int LOW_HP_TANK = 200;
+        public const ColorSkin COLOR_LOW_HP = ColorSkin.Red;
+        public const int ROW_START_ENEMY = 1; 
+        public const int COL_START_ENEMY_1 = 1;
+        public const int COL_START_ENEMY_2 = 47;
+        public const int COL_START_ENEMY_3 = 93;
+        public const int TIME_CREATE_NEW_ENEMY = 700;
     }
 }

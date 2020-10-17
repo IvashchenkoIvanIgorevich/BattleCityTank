@@ -14,7 +14,8 @@ namespace _20200613_TankLibrary
         #region ===--- Constructor ---===
 
         public GrassBlock(Coordinate position, IField owner,
-            ColorSkin color = ColorSkin.Green, SkinBlock skin = SkinBlock.Grass,
+            ColorSkin color = ConstantValue.COLOR_GRASS_BLOCK,
+            SkinBlock skin = SkinBlock.Grass,
             char charSkin = ConstantValue.GRASS_BLOCK)
             : base(position, color, skin, owner, charSkin)
         {

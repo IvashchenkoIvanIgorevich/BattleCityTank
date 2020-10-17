@@ -17,6 +17,8 @@ namespace UIConsole
             ConstantValue.WIDTH_GAMEFIELD];
         private char[,] _tempBuffer = new char[ConstantValue.HEIGHT_GAMEFIELD,
             ConstantValue.WIDTH_GAMEFIELD];
+        private ConsoleColor[,] _bufferColor = new ConsoleColor[ConstantValue.HEIGHT_GAMEFIELD,
+            ConstantValue.WIDTH_GAMEFIELD];
         private UIController _controller;
 
         #endregion
@@ -58,6 +60,11 @@ namespace UIConsole
                 ConstantValue.CUR_TOP_PAUSE + ConstantValue.SHIFT_START_WINDOW + 5);
             Console.Write(other);
             Console.ResetColor();
+        }
+
+        public string GetViewScore(int minutes, int seconds)
+        {
+            return "YOUR SCORE " + minutes + "min" + seconds + "sec";
         }
 
         #endregion
@@ -171,19 +178,22 @@ namespace UIConsole
             for (int row = 1; row < ConstantValue.HEIGHT_GAMEFIELD - 1; row++)
             {
                 for (int col = 1; col < ConstantValue.WIDTH_GAMEFIELD - 1; col++)
-                {
-                    if (_buffer[row, col] != _controller[row, col])
+                {                    
+                    if ((_buffer[row, col] != _controller[row, col])
+                        || (_bufferColor[row, col] != GetForegColorObject(_controller.GetColorSkin(row, col))))
                     {
                         Console.SetCursorPosition(col, row);
+                        Console.ForegroundColor = GetForegColorObject(_controller.GetColorSkin(row, col));
 
                         Console.Write(_controller[row, col]);
-
+                        
                         _buffer[row, col] = _controller[row, col];                 
+                        _bufferColor[row,col] = GetForegColorObject(_controller.GetColorSkin(row, col));
                     }
                 }
             }
 
-            //Console.ResetColor();
+            Console.ResetColor();
         }
 
         public void PrintGameFieldToFile()
@@ -200,6 +210,47 @@ namespace UIConsole
                     sw.WriteLine();
                 }
             }
+        }
+
+        private ConsoleColor GetForegColorObject(ColorSkin skin)
+        {
+            ConsoleColor colorObj = ConsoleColor.Black;
+
+            switch (skin)
+            {
+                case ColorSkin.NoColor:
+                    colorObj = ConsoleColor.Black;
+                    break;
+                case ColorSkin.Gray:
+                    colorObj = ConsoleColor.Gray;
+                    break;
+                case ColorSkin.White:
+                    colorObj = ConsoleColor.White;
+                    break;
+                case ColorSkin.Blue:
+                    colorObj = ConsoleColor.Blue;
+                    break;
+                case ColorSkin.Red:
+                    colorObj = ConsoleColor.Red;
+                    break;
+                case ColorSkin.Yellow:
+                    colorObj = ConsoleColor.Yellow;
+                    break;
+                case ColorSkin.Magenta:
+                    colorObj = ConsoleColor.Magenta;
+                    break;
+                case ColorSkin.Green:
+                    colorObj = ConsoleColor.Green;
+                    break;
+                case ColorSkin.DarkGray:
+                    colorObj = ConsoleColor.DarkGray;
+                    break;
+                default:
+                    colorObj = ConsoleColor.Black;
+                    break;
+            }
+
+            return colorObj;
         }
 
         #endregion

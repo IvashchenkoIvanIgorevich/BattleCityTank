@@ -72,31 +72,26 @@ namespace _20200613_TankLibrary
                     break;
             }
 
-            if (!Position.IsPermitMoveCoordinate(bulletTank.DirectionTank) 
-                || (_owner.IsContain(Position)))
+            if (!Position.IsPermitMoveCoordinate(bulletTank.DirectionTank))
+            {                
+                return false;
+            }
+
+            Direction = bulletTank.DirectionTank;    // for calculateing a RemoveBullets in IsPermitCreateBullet
+
+            if (!_owner.IsPermitCreateBullet(this))
             {
-                isCreate = false;
+                return false;
             }
             else
-            {
-                Coordinate newBulletCoord = new Coordinate(Position.PosX, Position.PosY);
-
+            {               
                 Color = ColorSkin.White;
                 Range = bulletTank.CharacterTank.AtckRng;
                 AtackSpeed = bulletTank.CharacterTank.AtckSp;
                 AtackDamage = bulletTank.CharacterTank.AtckDmg;
-                IsBotBullet = (bulletTank is EnemyTank);
+                IsBotBullet = bulletTank is EnemyTank;
                 Skin = SkinBullet.ArmorPiercing;
                 Direction = bulletTank.DirectionTank;
-
-                if (_owner.IsContain(Position) && !((Block)_owner[Position]).IsBrickBlock())
-                {
-                    _owner.AddBullet(this);
-                }
-                else
-                {
-                    _owner[newBulletCoord] = this;
-                } 
             }
 
             return isCreate;

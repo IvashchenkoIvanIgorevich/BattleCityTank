@@ -31,16 +31,13 @@ namespace _20200613_TankLibrary
             1, 1, ConstantValue.ATACK_RANGE_LIGHT, ConstantValue.ATACK_DAMAGE_LIGHT,
             SkinTank.Light);
 
-
         public CharacterTank heavyCharacter = new CharacterTank(ConstantValue.HP_HEAVY,
             1, 1, ConstantValue.ATACK_RANGE_HEAVY, ConstantValue.ATACK_DAMAGE_HEAVY,
             SkinTank.Heavy);
 
-
         public CharacterTank destroyerCharacter = new CharacterTank(ConstantValue.HP_DESTROY,
             1, 1, ConstantValue.ATACK_RANGE_DESTROY, ConstantValue.ATACK_DAMAGE_DESTROY,
             SkinTank.Destroy);
-
 
         #endregion        
 
@@ -133,13 +130,16 @@ namespace _20200613_TankLibrary
 
         public void CreateEnemys()
         {
-            Coordinate firstEnemyCoor = new Coordinate(1, 1);
+            Coordinate firstEnemyCoor = new Coordinate(ConstantValue.ROW_START_ENEMY,
+                ConstantValue.COL_START_ENEMY_1);
             EnemyTank enemy_1 = new EnemyTank(lightCharacter, Direction.Down, firstEnemyCoor, 
                 ColorSkin.Gray, _field);
-            Coordinate secondEnemyCoor = new Coordinate(1, 47);
+            Coordinate secondEnemyCoor = new Coordinate(ConstantValue.ROW_START_ENEMY,
+                ConstantValue.COL_START_ENEMY_2);
             EnemyTank enemy_2 = new EnemyTank(destroyerCharacter, Direction.Down, secondEnemyCoor, 
                 ColorSkin.Gray, _field);
-            Coordinate thirdEnemyCoor = new Coordinate(1, 93);
+            Coordinate thirdEnemyCoor = new Coordinate(ConstantValue.ROW_START_ENEMY, 
+                ConstantValue.COL_START_ENEMY_3);
             EnemyTank enemy_3 = new EnemyTank(heavyCharacter, Direction.Down, thirdEnemyCoor,
                 ColorSkin.Gray, _field);
             enemy_1.CreateTank();

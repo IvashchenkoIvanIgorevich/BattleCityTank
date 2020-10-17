@@ -14,8 +14,8 @@ namespace _20200613_TankLibrary
         #region ===--- Constructor ---===
 
         public BrickBlock(Coordinate position, IField owner,
-            ColorSkin color = ColorSkin.Gray, SkinBlock skin = SkinBlock.Brick,
-            char charSkin = ConstantValue.BRICK_BLOCK)
+            ColorSkin color = ConstantValue.COLOR_BRICK_BLOCK,
+            SkinBlock skin = SkinBlock.Brick, char charSkin = ConstantValue.BRICK_BLOCK)
             : base(position, color, skin, owner, charSkin)
         {
         }
