@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Diagnostics;
 
 using _20200613_TankLibrary;
@@ -12,6 +12,10 @@ namespace UIConsole
 {
     class Program
     {
+        //TODO: - add sound ?
+        //TODO: - try-catch for BL, must be in controller
+        //TODO: - do data base
+
         static void Main(string[] args)
         {
             bool exit = false;
@@ -23,7 +27,7 @@ namespace UIConsole
 
             ILoader initGame = null;
 
-            UIController controller = new UIController(newGameField);
+            UIController controller = new UIController(newGameField);    
             UIView viewConsole = new UIView(controller);
 
             ActionPlayer actionPlayer = ActionPlayer.NoAction;
@@ -45,6 +49,8 @@ namespace UIConsole
             if (ActionPlayer.PressEnter.HasFlag(actionPlayer)
                 || ActionPlayer.PressLoad.HasFlag(actionPlayer))
             {
+                //controller.StartMainMusic();
+
                 if (init)
                 {
                     initGame = new InitialisationNewGame(newGameField);
@@ -55,11 +61,9 @@ namespace UIConsole
                 }
 
                 newGameField = initGame.LoadGame();
-                controller.SetGameField = newGameField;     //TODO: после загрузки в LoadGame() newGameField не передеается в UIController
+                controller.SetGameField = newGameField;     // после загрузки в LoadGame() newGameField не передеается в UIController
                 viewConsole.PrintGameBorder();
-
-                //viewGame.PrintRigthBar(initGame.Field);
-                //viewGame.PrintStatistic(initGame.Field,(PlayerTank)initGame.Field[initGame.Field.GetPlayerPosition(), initGame.Field.GetPlayerPosY()]);
+                viewConsole.PrintRigthBar();
             }
 
             Stopwatch watch = new Stopwatch();
@@ -83,13 +87,13 @@ namespace UIConsole
                     }
 
                     if ((actionPlayer & ActionPlayer.MoveAction) > 0)
-                    {
+                    {                        
                         controller.MovePlayer(actionPlayer);
                     }
 
                     if (actionPlayer == ActionPlayer.PressFire) 
                     {
-                        controller.ShotPlayer();
+                        controller.ShotPlayer(gameTime);
                     }
                 }
 
@@ -136,7 +140,7 @@ namespace UIConsole
                     controller.CreateNewEnem();
                 }
 
-                viewConsole.PrintGameField();    
+                viewConsole.PrintGameField();
 
                 ++gameTime;
                 System.Threading.Thread.Sleep(ConstantValue.TIME_SLEEP);

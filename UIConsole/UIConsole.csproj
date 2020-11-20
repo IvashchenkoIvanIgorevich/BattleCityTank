@@ -46,6 +46,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIController.cs" />
+    <Compile Include="UISound.cs" />
     <Compile Include="UIView.cs" />
     <Compile Include="ViewGameObject.cs" />
     <Compile Include="ViewTank.cs" />

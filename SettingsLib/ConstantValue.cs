@@ -70,7 +70,7 @@ namespace CommonLib
         public const int TOP_LOAD = 12;
         public const int WIDTH_BLOCK = 5;
         public const int HEIGHT_BLOCK = 5;
-        public const int NUM_ALL_ENEMY = 10;
+        public const int NUM_ALL_ENEMY = 20;
         public const int NUM_DIRECTION = 4;
         public const int NUM_RND_ACTION_ENEMY = 10;
         public const int NUM_ENEMY_ON_FIELD = 3;
@@ -79,6 +79,12 @@ namespace CommonLib
         public const string PATH_FILE_HEAVYTANK = "..\\..\\ImgTank\\ViewHeavyTank.txt";
         public const string PATH_FILE_DESTROYTANK = "..\\..\\ImgTank\\ViewDestroyTank.txt";
         public const string PATH_FILE_SAVE_GAME = "..\\..\\SaveGames\\Save.dat";
+        public const string PATH_FILE_SOUND_MOVE = "..\\..\\Sound\\move_2s.wav";
+        public const string PATH_FILE_SOUND_SHOOT = "..\\..\\Sound\\shot.wav";
+        public const string PATH_FILE_SOUND_GAME = "..\\..\\Sound\\startGame.wav";
+        public const string PATH_FILE_SOUND_ENGINE = "..\\..\\Sound\\workEngine.wav";
+        public const string PATH_FILE_SOUND_DEAD_PLAYER = "..\\..\\Sound\\deadPlayer.wav";
+        public const string PATH_FILE_SOUND_DEAD_ENEMY = "..\\..\\Sound\\deadEnemy.wav";
         public const char BRICK_BLOCK = '\u25A0';
         public const char METAL_BLOCK = '\u2588';
         public const char GRASS_BLOCK = '\u2593';
@@ -96,5 +102,8 @@ namespace CommonLib
         public const int COL_START_ENEMY_2 = 47;
         public const int COL_START_ENEMY_3 = 93;
         public const int TIME_CREATE_NEW_ENEMY = 700;
+        public const int SHIFT_TWICE = 2;
+        public const int SHIFT_ONCE = 1;
+        public const int TIME_BEETWEN_SHOT = 50;
     }
 }

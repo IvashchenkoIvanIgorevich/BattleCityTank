@@ -171,6 +171,71 @@ namespace UIConsole
 
         #endregion
 
+        #region ===--- PrintStatistics ---===
+
+        public void PrintRigthBar()
+        {
+            for (int posY = 0; posY < ConstantValue.HEIGHT_GAMEFIELD - 1; posY++)
+            {
+                for (int posX = ConstantValue.WIDTH_GAMEFIELD;
+                    posX < ConstantValue.WIDTH_GAMEFIELD + ConstantValue.WIDTH_RIGHT_BAR; posX++)
+                {
+                    Console.SetCursorPosition(posX, posY);
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine(' ');
+                }
+
+                if (posY < ConstantValue.HEIGHT_GAMEFIELD - 2)
+                {
+                    Console.WriteLine();
+                }
+            }
+            Console.ResetColor();
+        }
+
+        private void PrintStatistic()
+        {
+            string skin = _controller.GetPlayerCharacteristic(out int health,
+                out int atckDmg, out int numKilledEnemy);
+
+            int deathEnemy = ConstantValue.QUANTITY_ENEMY - numKilledEnemy;
+
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, 0);
+
+            Console.Write("ENEMIES");
+
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_STAT);
+
+            for (int i = 1; i <= ConstantValue.QUANTITY_ENEMY; i++)
+            {
+                if (i <= deathEnemy)
+                {
+                    Console.WriteLine('X');
+                }
+                else
+                {
+                    Console.WriteLine(' ');
+                }
+                Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, i + 1);
+            }
+
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_HP);
+            Console.WriteLine("PLAYER");
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_HP + 1);
+            Console.WriteLine("HP {0,4}", health);
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_HP + 3);
+            Console.WriteLine("AD {0,4}", atckDmg);
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_HP + 5);
+            Console.WriteLine("{0,4}", skin);
+
+            Console.ResetColor();
+        }
+
+        #endregion
+
         #region ===--- PrintGameField ---===
 
         public void PrintGameField()
@@ -194,6 +259,8 @@ namespace UIConsole
             }
 
             Console.ResetColor();
+
+            PrintStatistic();
         }
 
         public void PrintGameFieldToFile()

@@ -39,11 +39,13 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnemyWasDead.cs" />
     <Compile Include="InitialisationSaveGame.cs" />
     <Compile Include="Interfaces\ILoader.cs" />
+    <Compile Include="Events\MovedPlayer.cs" />
     <Compile Include="SaveGame.cs" />
     <Compile Include="Blocks\Block.cs" />
     <Compile Include="Blocks\BrickBlock.cs" />
@@ -53,6 +55,7 @@
     <Compile Include="Blocks\GrassBlock.cs" />
     <Compile Include="Blocks\IceBlock.cs" />
     <Compile Include="Blocks\MetalBlock.cs" />
+    <Compile Include="Events\ShootPlayer.cs" />
     <Compile Include="Tanks\EnemyTank.cs" />
     <Compile Include="Enums\ActionPlayer.cs" />
     <Compile Include="GameField.cs" />
@@ -64,7 +67,7 @@
     <Compile Include="Tanks\PlayerTank.cs" />
     <Compile Include="Blocks\SkinBlock.cs" />
     <Compile Include="Tanks\Tank.cs" />
-    <Compile Include="Tanks\CharacterTank.cs" />
+    <Compile Include="Tanks\CharacteristicTank.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

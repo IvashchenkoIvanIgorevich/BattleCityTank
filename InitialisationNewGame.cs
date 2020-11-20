@@ -27,15 +27,15 @@ namespace _20200613_TankLibrary
 
         #region ===--- InitialisationCharactesTank ---===
 
-        public CharacterTank lightCharacter = new CharacterTank(ConstantValue.HP_LIGHT,
+        public CharacteristicTank lightCharacter = new CharacteristicTank(ConstantValue.HP_LIGHT,
             1, 1, ConstantValue.ATACK_RANGE_LIGHT, ConstantValue.ATACK_DAMAGE_LIGHT,
             SkinTank.Light);
 
-        public CharacterTank heavyCharacter = new CharacterTank(ConstantValue.HP_HEAVY,
+        public CharacteristicTank heavyCharacter = new CharacteristicTank(ConstantValue.HP_HEAVY,
             1, 1, ConstantValue.ATACK_RANGE_HEAVY, ConstantValue.ATACK_DAMAGE_HEAVY,
             SkinTank.Heavy);
 
-        public CharacterTank destroyerCharacter = new CharacterTank(ConstantValue.HP_DESTROY,
+        public CharacteristicTank destroyerCharacter = new CharacteristicTank(ConstantValue.HP_DESTROY,
             1, 1, ConstantValue.ATACK_RANGE_DESTROY, ConstantValue.ATACK_DAMAGE_DESTROY,
             SkinTank.Destroy);
 

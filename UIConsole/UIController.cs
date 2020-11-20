@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 using _20200613_TankLibrary;
 using CommonLib;
 
 namespace UIConsole
 {
-    class UIController
+    class UIController    // Publisher
     {
+        private UISound _uiSound = new UISound();
         private GameField _gameField;
         private ViewGameObject _viewObj = new ViewGameObject();
 
@@ -21,10 +22,18 @@ namespace UIConsole
 
         public GameField SetGameField
         {
-            set 
+            set
             {
                 _gameField = value;
+                _gameField.Player.Moved += _uiSound.MovePlayerSound;
+                _gameField.Player.Shooted += _uiSound.ShootPlayerSound;
             }
+        }
+
+        public void StartMainMusic()
+        {
+            _uiSound.StartGameSound();
+            Thread.Sleep(2000);
         }
 
         public ActionPlayer GetActionPlayer(ConsoleKey pressKey)
@@ -84,9 +93,9 @@ namespace UIConsole
             }
         }
 
-        public void ShotPlayer()
+        public void ShotPlayer(ulong gameTime)
         {
-            _gameField.AddPlayerBullet();
+            _gameField.AddPlayerBullet(gameTime);
         }
 
         public void ShotEnemies()
@@ -133,11 +142,11 @@ namespace UIConsole
                     switch (_gameField[tempCoor].KindOfObject)
                     {
                         case ObjectType.PlayerTank:
-                            resultSymbol =_viewObj[((PlayerTank)_gameField[tempCoor]).CharacterTank.Skin,
+                            resultSymbol = _viewObj[((PlayerTank)_gameField[tempCoor]).Characteristic.Skin,
                                 ((PlayerTank)_gameField[tempCoor]).DirectionTank][objRow, objCol];
                             break;
                         case ObjectType.EnemyTank:
-                            resultSymbol = _viewObj[((EnemyTank)_gameField[tempCoor]).CharacterTank.Skin,
+                            resultSymbol = _viewObj[((EnemyTank)_gameField[tempCoor]).Characteristic.Skin,
                                 ((EnemyTank)_gameField[tempCoor]).DirectionTank][objRow, objCol];
                             break;
                         case ObjectType.Base:
@@ -165,6 +174,15 @@ namespace UIConsole
 
                 return resultSymbol;
             }
+        }
+
+        public string GetPlayerCharacteristic(out int health, out int atckDmg, out int numKilledEnemy)
+        {
+            health = _gameField.Player.Characteristic.HP;
+            atckDmg = _gameField.Player.Characteristic.AtckDmg;
+            numKilledEnemy = _gameField.Player.NumKilledEnemy;
+
+            return _gameField.Player.Characteristic.Skin.ToString();
         }
 
         public ColorSkin GetColorSkin(int row, int col)

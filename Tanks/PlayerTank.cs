@@ -11,7 +11,9 @@ namespace _20200613_TankLibrary
     [Serializable]
     public class PlayerTank : Tank
     {
-        public PlayerTank(CharacterTank character, Direction direction,
+        public int NumKilledEnemy { get; internal set; }
+
+        public PlayerTank(CharacteristicTank character, Direction direction,
             Coordinate coordinate, ColorSkin skin, IField gameField)
             : base(character, direction, coordinate, skin, gameField)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 using CommonLib;
 
@@ -13,17 +14,48 @@ namespace _20200613_TankLibrary
     {
         #region ===--- Dataset ---===
 
-        public CharacterTank CharacterTank { get; protected set; }
+        public ulong TimeShoot { get; internal set; }
+        public CharacteristicTank Characteristic { get; protected set; }
         public Direction DirectionTank { get; protected set; }
+        private MovedPlayer _movedPlayer;
+        protected ShootPlayer _shotedPlayer;
+
+        #endregion
+
+        #region ===--- Events ---===
+
+        public event MovedPlayer Moved
+        {
+            add
+            {
+                _movedPlayer += value;
+            }
+            remove
+            {
+                _movedPlayer -= value;
+            }
+        }
+
+        public event ShootPlayer Shooted
+        {
+            add
+            {
+                _shotedPlayer += value;
+            }
+            remove
+            {
+                _shotedPlayer -= value;
+            }
+        }
 
         #endregion
 
         #region ===--- Constructor ---===
 
-        public Tank(CharacterTank character, Direction direction, Coordinate coordinate,
+        public Tank(CharacteristicTank character, Direction direction, Coordinate coordinate,
             ColorSkin skin, IField gameField) : base(coordinate, skin, gameField)
         {
-            CharacterTank = character;
+            Characteristic = character;
             DirectionTank = direction;
         }
 
@@ -143,6 +175,16 @@ namespace _20200613_TankLibrary
             }
         }
 
+        public bool IsEventShotPlayer()
+        {
+            return _shotedPlayer != null;
+        }
+
+        public void InvokeShotPlayer()
+        {
+            _shotedPlayer();
+        }
+
         #endregion
 
         #region ===--- Implementation interfaces ---===
@@ -222,6 +264,11 @@ namespace _20200613_TankLibrary
 
         public virtual void Move(ActionPlayer action)
         {
+            if (_movedPlayer != null)
+            {                
+                _movedPlayer();
+            }            
+
             bool okDirect = false;
 
             Coordinate prePosition = new Coordinate(Position.PosX, Position.PosY);    // position before move, previous position, it was create for delete coordinate tank after his move
@@ -271,12 +318,13 @@ namespace _20200613_TankLibrary
                 case ActionPlayer.NoAction:
                     break;
                 default:
+                    //TODO: throw
                     break;
             }
 
             if (okDirect && IsPermitMove())
             {
-                Position.Move(DirectionTank, CharacterTank.MS);    // move tank
+                Position.Move(DirectionTank, Characteristic.MS);    // move tank
                 DeletePrePosition(prePosition);    // delete 1 row or 1 column in owner game field 
                 AddNewPostion(this);    // add 1 row or 1 column in owner game field 
             }

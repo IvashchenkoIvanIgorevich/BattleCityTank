@@ -13,35 +13,35 @@ namespace _20200613_TankLibrary
         public static Random rndCharacterTank = new Random();
         public static Random rndActionEnemy = new Random();
 
-        public static CharacterTank GetRandomChracterTank()
+        public static CharacteristicTank GetRandomChracterTank()
         {
             int randomNum = rndCharacterTank.Next(1, ConstantValue.NUM_RND_CHARAC);
-            CharacterTank characterTank = null;
+            CharacteristicTank characterTank = null;
 
             switch (randomNum)
             {
                 case 1:
-                    characterTank = new CharacterTank(ConstantValue.HP_LIGHT, 1, 1,
+                    characterTank = new CharacteristicTank(ConstantValue.HP_LIGHT, 1, 1,
                         ConstantValue.ATACK_RANGE_LIGHT, ConstantValue.ATACK_DAMAGE_LIGHT,
                         SkinTank.Light);
                     break;
                 case 2:
-                    characterTank = new CharacterTank(ConstantValue.HP_DESTROY, 1, 1,
+                    characterTank = new CharacteristicTank(ConstantValue.HP_DESTROY, 1, 1,
                         ConstantValue.ATACK_RANGE_DESTROY, ConstantValue.ATACK_DAMAGE_DESTROY,
                         SkinTank.Destroy);
                     break;
                 case 3:
-                    characterTank = new CharacterTank(ConstantValue.HP_HEAVY, 1, 1,
+                    characterTank = new CharacteristicTank(ConstantValue.HP_HEAVY, 1, 1,
                         ConstantValue.ATACK_RANGE_HEAVY, ConstantValue.ATACK_DAMAGE_HEAVY,
                         SkinTank.Heavy);
                     break;
                 case 4:
-                    characterTank = new CharacterTank(ConstantValue.HP_DESTROY, 1, 1,
+                    characterTank = new CharacteristicTank(ConstantValue.HP_DESTROY, 1, 1,
                         ConstantValue.ATACK_RANGE_DESTROY, ConstantValue.ATACK_DAMAGE_DESTROY,
                         SkinTank.Destroy);
                     break;
                 case 5:
-                    characterTank = new CharacterTank(ConstantValue.HP_LIGHT, 1, 1,
+                    characterTank = new CharacteristicTank(ConstantValue.HP_LIGHT, 1, 1,
                         ConstantValue.ATACK_RANGE_LIGHT, ConstantValue.ATACK_DAMAGE_LIGHT,
                         SkinTank.Light);
                     break;

@@ -47,7 +47,7 @@ namespace _20200613_TankLibrary
         #region ===-- Methods ---===
 
         public bool CreateBullet(Tank bulletTank)
-        {
+        {            
             bool isCreate = true;
 
             switch (bulletTank.DirectionTank)
@@ -84,14 +84,19 @@ namespace _20200613_TankLibrary
                 return false;
             }
             else
-            {               
+            {
                 Color = ColorSkin.White;
-                Range = bulletTank.CharacterTank.AtckRng;
-                AtackSpeed = bulletTank.CharacterTank.AtckSp;
-                AtackDamage = bulletTank.CharacterTank.AtckDmg;
+                Range = bulletTank.Characteristic.AtckRng;
+                AtackSpeed = bulletTank.Characteristic.AtckSp;
+                AtackDamage = bulletTank.Characteristic.AtckDmg;
                 IsBotBullet = bulletTank is EnemyTank;
                 Skin = SkinBullet.ArmorPiercing;
                 Direction = bulletTank.DirectionTank;
+
+                if (!_owner.IsContain(Position))
+                {
+                    _owner[Position] = this;    // Add to _gameObjects because _gameObjects not contains object on this position
+                }
             }
 
             return isCreate;

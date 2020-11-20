@@ -115,7 +115,7 @@ namespace _20200613_TankLibrary
                 foreach (Bullet bull in _bullets)
                 {
                     if (_gameObjects.ContainsKey(bull.Position)
-                        && _gameObjects[bull.Position] is Bullet)    // TODO: удаляем только в том случае если она существует и она действительно Пуля иначе будет удалять все элементы которые на позиции
+                        && _gameObjects[bull.Position] is Bullet)    // удаляем только в том случае если она существует и она действительно Пуля иначе будет удалять все элементы которые на позиции
                     {
                         _gameObjects.Remove(bull.Position);
                     }
@@ -150,10 +150,10 @@ namespace _20200613_TankLibrary
                 case ObjectType.PlayerTank:
                     if (dmgBullet.IsBotBullet)
                     {
-                        Player.CharacterTank.HP -= dmgBullet.AtackDamage;
+                        Player.Characteristic.HP -= dmgBullet.AtackDamage;
                         delBull.Add(dmgBullet);
                     }
-                    if (Player.CharacterTank.HP <= ConstantValue.LOW_HP_TANK)
+                    if (Player.Characteristic.HP <= ConstantValue.LOW_HP_TANK)
                     {
                         Player.Color = ConstantValue.COLOR_LOW_HP;
                     }
@@ -161,11 +161,11 @@ namespace _20200613_TankLibrary
                 case ObjectType.EnemyTank:
                     if (!dmgBullet.IsBotBullet)
                     {
-                        ((EnemyTank)this[dmgBullet.Position]).CharacterTank.HP
+                        ((EnemyTank)this[dmgBullet.Position]).Characteristic.HP
                             -= dmgBullet.AtackDamage;
                         delBull.Add(dmgBullet);
                     }
-                    if (((EnemyTank)this[dmgBullet.Position]).CharacterTank.HP
+                    if (((EnemyTank)this[dmgBullet.Position]).Characteristic.HP
                         <= ConstantValue.LOW_HP_TANK)
                     {
                         ((EnemyTank)this[dmgBullet.Position]).Color = ConstantValue.COLOR_LOW_HP;
@@ -201,18 +201,23 @@ namespace _20200613_TankLibrary
 
         #region ===--- Method AddBullets ---===
 
-        public void AddPlayerBullet()
+        public void AddPlayerBullet(ulong gameTime)
         {
             Bullet newBullet = new Bullet(this);
 
-            if (newBullet.CreateBullet(Player))
+            if (gameTime - Player.TimeShoot >= ConstantValue.TIME_BEETWEN_SHOT)
             {
-                if (!_gameObjects.ContainsKey(newBullet.Position))
+                if (newBullet.CreateBullet(Player))
                 {
-                    _gameObjects[newBullet.Position] = newBullet;    // Add to _gameObjects because _gameObjects not contains object on this position
-                }
+                    if (_player.IsEventShotPlayer())    
+                    {
+                        _player.InvokeShotPlayer();
+                    }
 
-                _bullets.Add(newBullet);    // Add to List<Bullet> not to _gameObjects because _gameObjects contains object on this position
+                    _bullets.Add(newBullet);    // Add to List<Bullet> not to _gameObjects because _gameObjects contains object on this position
+
+                    Player.TimeShoot = gameTime;
+                }
             }
         }
 
@@ -226,11 +231,6 @@ namespace _20200613_TankLibrary
 
                     if (newBullet.CreateBullet(item))
                     {
-                        if (!_gameObjects.ContainsKey(newBullet.Position))
-                        {
-                            _gameObjects[newBullet.Position] = newBullet;    // Add to _gameObjects because _gameObjects not contains object on this position
-                        }
-
                         _bullets.Add(newBullet);    // Add to List<Bullet> not to _gameObjects because _gameObjects contains object on this position
                     }
                 }
@@ -241,91 +241,56 @@ namespace _20200613_TankLibrary
 
         #region ===--- Method RemoveBullets ---===
 
-        private void RemoveBullets(Bullet bull)    // TODO: review
+        private void RemoveBullets(Bullet bull)   
         {
-            Coordinate posLeftLeft = new Coordinate(bull.Position.PosX, bull.Position.PosY - 2);
-            Coordinate posLeft = new Coordinate(bull.Position.PosX, bull.Position.PosY - 1);
-            Coordinate posRightRight = new Coordinate(bull.Position.PosX, bull.Position.PosY + 2);
-            Coordinate posRight = new Coordinate(bull.Position.PosX, bull.Position.PosY + 1);
-            Coordinate posUpUp = new Coordinate(bull.Position.PosX - 2, bull.Position.PosY);
-            Coordinate posUp = new Coordinate(bull.Position.PosX - 1, bull.Position.PosY);
-            Coordinate posDownDown = new Coordinate(bull.Position.PosX + 2, bull.Position.PosY);
-            Coordinate posDown = new Coordinate(bull.Position.PosX + 1, bull.Position.PosY);
-
-            switch (bull.Direction)
+            if (bull.Direction.HasFlag(Direction.Left)
+                || bull.Direction.HasFlag(Direction.Right))
             {
-                case Direction.Right:
-                    if (_gameObjects.ContainsKey(posDown))
-                    {
-                        _gameObjects.Remove(posDown);
-                    }
-                    if (_gameObjects.ContainsKey(posUp))
-                    {
-                        _gameObjects.Remove(posUp);
-                    }
-                    if (_gameObjects.ContainsKey(posDownDown))
-                    {
-                        _gameObjects.Remove(posDownDown);
-                    }
-                    if (_gameObjects.ContainsKey(posUpUp))
-                    {
-                        _gameObjects.Remove(posUpUp);
-                    }
-                    break;
-                case Direction.Left:
-                    if (_gameObjects.ContainsKey(posDown))
-                    {
-                        _gameObjects.Remove(posDown);
-                    }
-                    if (_gameObjects.ContainsKey(posUp))
-                    {
-                        _gameObjects.Remove(posUp);
-                    }
-                    if (_gameObjects.ContainsKey(posDownDown))
-                    {
-                        _gameObjects.Remove(posDownDown);
-                    }
-                    if (_gameObjects.ContainsKey(posUpUp))
-                    {
-                        _gameObjects.Remove(posUpUp);
-                    }
-                    break;
-                case Direction.Up:
-                    if (_gameObjects.ContainsKey(posLeft))
-                    {
-                        _gameObjects.Remove(posLeft);
-                    }
-                    if (_gameObjects.ContainsKey(posRight))
-                    {
-                        _gameObjects.Remove(posRight);
-                    }
-                    if (_gameObjects.ContainsKey(posLeftLeft))
-                    {
-                        _gameObjects.Remove(posLeftLeft);
-                    }
-                    if (_gameObjects.ContainsKey(posRightRight))
-                    {
-                        _gameObjects.Remove(posRightRight);
-                    }                    
-                    break; 
-                case Direction.Down:
-                    if (_gameObjects.ContainsKey(posLeft))
-                    {
-                        _gameObjects.Remove(posLeft);
-                    }
-                    if (_gameObjects.ContainsKey(posRight))
-                    {
-                        _gameObjects.Remove(posRight);
-                    }
-                    if (_gameObjects.ContainsKey(posLeftLeft))
-                    {
-                        _gameObjects.Remove(posLeftLeft);
-                    }
-                    if (_gameObjects.ContainsKey(posRightRight))
-                    {
-                        _gameObjects.Remove(posRightRight);
-                    }                    
-                    break;
+                Coordinate posUpUp = new Coordinate(bull.Position.PosX - ConstantValue.SHIFT_TWICE, bull.Position.PosY);
+                Coordinate posUp = new Coordinate(bull.Position.PosX - ConstantValue.SHIFT_ONCE, bull.Position.PosY);
+                Coordinate posDownDown = new Coordinate(bull.Position.PosX + ConstantValue.SHIFT_TWICE, bull.Position.PosY);
+                Coordinate posDown = new Coordinate(bull.Position.PosX + ConstantValue.SHIFT_ONCE, bull.Position.PosY);
+
+                if (_gameObjects.ContainsKey(posDown))
+                {
+                    _gameObjects.Remove(posDown);
+                }
+                if (_gameObjects.ContainsKey(posUp))
+                {
+                    _gameObjects.Remove(posUp);
+                }
+                if (_gameObjects.ContainsKey(posDownDown))
+                {
+                    _gameObjects.Remove(posDownDown);
+                }
+                if (_gameObjects.ContainsKey(posUpUp))
+                {
+                    _gameObjects.Remove(posUpUp);
+                }
+            }
+            else
+            {
+                Coordinate posLeftLeft = new Coordinate(bull.Position.PosX, bull.Position.PosY - ConstantValue.SHIFT_TWICE);
+                Coordinate posLeft = new Coordinate(bull.Position.PosX, bull.Position.PosY - ConstantValue.SHIFT_ONCE);
+                Coordinate posRightRight = new Coordinate(bull.Position.PosX, bull.Position.PosY + ConstantValue.SHIFT_TWICE);
+                Coordinate posRight = new Coordinate(bull.Position.PosX, bull.Position.PosY + ConstantValue.SHIFT_ONCE);
+
+                if (_gameObjects.ContainsKey(posLeft))
+                {
+                    _gameObjects.Remove(posLeft);
+                }
+                if (_gameObjects.ContainsKey(posRight))
+                {
+                    _gameObjects.Remove(posRight);
+                }
+                if (_gameObjects.ContainsKey(posLeftLeft))
+                {
+                    _gameObjects.Remove(posLeftLeft);
+                }
+                if (_gameObjects.ContainsKey(posRightRight))
+                {
+                    _gameObjects.Remove(posRightRight);
+                }
             }
 
             _gameObjects.Remove(bull.Position);
@@ -343,7 +308,7 @@ namespace _20200613_TankLibrary
 
             foreach (EnemyTank item in _enemies)
             {
-                if (item.CharacterTank.HP <= 0)
+                if (item.Characteristic.HP <= 0)
                 {
                     if (_enemyDead != null)
                     {
@@ -359,7 +324,7 @@ namespace _20200613_TankLibrary
 
                 if (NumEnemyOnField < ConstantValue.NUM_ALL_ENEMY)
                 {
-                    CharacterTank newCharacter = GameManager.GetRandomChracterTank();
+                    CharacteristicTank newCharacter = GameManager.GetRandomChracterTank();
 
                     Enemy = new EnemyTank(newCharacter, Direction.Down, GetCoorrdinateForNewEnemy(),
                         ColorSkin.Gray, this);
@@ -379,6 +344,7 @@ namespace _20200613_TankLibrary
         private void SetEnemyDead(Tank deadEnemy)    // delete dead enemy from game field
         {
             deadEnemy.DeleteTank();
+            _player.NumKilledEnemy++;
         }
 
         #endregion
@@ -389,7 +355,7 @@ namespace _20200613_TankLibrary
         {
             if (NumEnemyOnField < ConstantValue.NUM_ALL_ENEMY)
             {
-                CharacterTank newCharacter = GameManager.GetRandomChracterTank();
+                CharacteristicTank newCharacter = GameManager.GetRandomChracterTank();
 
                 Enemy = new EnemyTank(newCharacter, Direction.Down, GetCoorrdinateForNewEnemy(),
                     ColorSkin.Gray, this);

@@ -13,7 +13,7 @@ namespace _20200613_TankLibrary
     {
         #region ===--- Constructor ---===
 
-        public EnemyTank(CharacterTank character, Direction direction,
+        public EnemyTank(CharacteristicTank character, Direction direction,
             Coordinate coordinate, ColorSkin skin, IField gameField)
             : base(character, direction, coordinate, skin, gameField)
         {
@@ -127,7 +127,7 @@ namespace _20200613_TankLibrary
 
         public bool IsPermitShot(Coordinate atackCoordinate)
         {
-            return (CharacterTank.AtckRng > Math.Min(Position.GetDeltaHeight(atackCoordinate),
+            return (Characteristic.AtckRng > Math.Min(Position.GetDeltaHeight(atackCoordinate),
                 Position.GetDeltaWidth(atackCoordinate)));
         }
 

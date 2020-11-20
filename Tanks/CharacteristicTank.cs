@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace _20200613_TankLibrary
 {
     [Serializable]
-    public class CharacterTank
+    public class CharacteristicTank
     {
         #region ===--- Dataset ---===
 
         public SkinTank Skin { get; }
-        public int HP { get; set; }
+        public int HP { get; internal set; }
         public int MS { get; }
         public int AtckSp { get; }
         public int AtckRng { get; }
@@ -22,7 +22,7 @@ namespace _20200613_TankLibrary
 
         #region ===--- Constructor ---===
 
-        public CharacterTank(int hp, int moveSpeed, int atackSpeed, int atackRange,
+        public CharacteristicTank(int hp, int moveSpeed, int atackSpeed, int atackRange,
             int atackDamage, SkinTank skin)
         {
             HP = hp;
