@@ -5,13 +5,13 @@ namespace CommonLib
 {
     public class Sound
     {
-        private readonly SoundPlayer _soundPlay;
+        public SoundPlayer SoundPlay { get; set; }
         public readonly Thread ThreadSound;
 
         public Sound(string soundLocation)
         {
-            _soundPlay = new SoundPlayer(soundLocation);
-            ThreadSound = new Thread(_soundPlay.Play);
+            SoundPlay = new SoundPlayer(soundLocation);
+            //ThreadSound = new Thread(_soundPlay.Play);
         }
     }
 }

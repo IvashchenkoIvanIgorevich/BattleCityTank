@@ -42,7 +42,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnemyWasDead.cs" />
+    <Compile Include="Base\Base.cs" />
+    <Compile Include="Events\EnemyDeaded.cs" />
+    <Compile Include="Events\PlayerOrBaseDeaded.cs" />
+    <Compile Include="Exceptions\ActionNotFoundException.cs" />
+    <Compile Include="Events\EnemyWasDead.cs" />
+    <Compile Include="Exceptions\CreateBulletException.cs" />
+    <Compile Include="Exceptions\DamageObjNotFoundException.cs" />
     <Compile Include="InitialisationSaveGame.cs" />
     <Compile Include="Interfaces\ILoader.cs" />
     <Compile Include="Events\MovedPlayer.cs" />
@@ -79,8 +85,6 @@
       <Name>CommonLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Base\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

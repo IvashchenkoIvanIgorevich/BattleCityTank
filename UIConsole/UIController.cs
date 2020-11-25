@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.IO;
 
 using _20200613_TankLibrary;
 using CommonLib;
@@ -27,6 +28,8 @@ namespace UIConsole
                 _gameField = value;
                 _gameField.Player.Moved += _uiSound.MovePlayerSound;
                 _gameField.Player.Shooted += _uiSound.ShootPlayerSound;
+                _gameField.EnemyDead += _uiSound.DeadEnemySound;
+                _gameField.GameOver += _uiSound.DeadPlayerSound;
             }
         }
 
@@ -79,33 +82,68 @@ namespace UIConsole
 
         public void MovePlayer(ActionPlayer action)
         {
-            if (_gameField.Player != null)
+            try
             {
-                _gameField.Player.Move(action);
+                if (_gameField.Player != null)
+                {
+                    _gameField.Player.Move(action);
+                }
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(ConstantValue.PATH_LOG, ex.Message + Environment.NewLine);
             }
         }
 
         public void MoveEnemy(ActionPlayer[] actionEnemies)
         {
-            if (_gameField.EnemyTanks.Count() != 0)
+            try
             {
-                _gameField.MoveEnemies(actionEnemies);
+                if (_gameField.EnemyTanks.Count() != 0)
+                {
+                    _gameField.MoveEnemies(actionEnemies);
+                }
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(ConstantValue.PATH_LOG, ex.Message + Environment.NewLine);
             }
         }
 
         public void ShotPlayer(ulong gameTime)
         {
-            _gameField.AddPlayerBullet(gameTime);
+            try
+            {
+                _gameField.AddPlayerBullet(gameTime);
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(ConstantValue.PATH_LOG, ex.Message + Environment.NewLine);
+            }
         }
 
         public void ShotEnemies()
         {
-            _gameField.AddEnemiesBullet();
+            try
+            {
+                _gameField.AddEnemiesBullet();
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(ConstantValue.PATH_LOG, ex.Message + Environment.NewLine);
+            }
         }
 
         public void MoveBullets()
         {
-            _gameField.MoveBullets();
+            try
+            {
+                _gameField.MoveBullets();
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(ConstantValue.PATH_LOG, ex.Message + Environment.NewLine);
+            }
         }
 
         public void SaveGame()
@@ -113,9 +151,22 @@ namespace UIConsole
             _gameField.SaveFiled();
         }
 
-        public bool CheckEnemyDead()
+        public bool CheckEndGame(out bool loseOrWin)
         {
-            return _gameField.CheckEnemiesTank();
+            bool endGame = false;
+            loseOrWin = false;
+
+            try
+            {
+                endGame = _gameField.EndGame(out loseOrWin);
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(ConstantValue.PATH_LOG, 
+                    "Method: CheckEnemyDead" + ex.Message + Environment.NewLine);
+            }
+
+            return endGame;
         }
 
         public void CreateNewEnem()
@@ -150,7 +201,7 @@ namespace UIConsole
                                 ((EnemyTank)_gameField[tempCoor]).DirectionTank][objRow, objCol];
                             break;
                         case ObjectType.Base:
-                            //tempView[row, col] = ViewGameObject.GetViewBase()[objRow, objCol];
+                            resultSymbol = _viewObj.GetViewBase()[objRow, objCol];                         
                             break;
                         case ObjectType.BrickBlock:
                             resultSymbol = _viewObj.GetViewBlock(((BrickBlock)_gameField[tempCoor]).Skin);

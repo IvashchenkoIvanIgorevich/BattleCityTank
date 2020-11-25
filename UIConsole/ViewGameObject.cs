@@ -17,6 +17,7 @@ namespace UIConsole
         public ViewTank lightTank = new ViewTank(ConstantValue.PATH_FILE_LIGHTTANK);
         public ViewTank heavyTank = new ViewTank(ConstantValue.PATH_FILE_HEAVYTANK);
         public ViewTank destroyTank = new ViewTank(ConstantValue.PATH_FILE_DESTROYTANK);
+        public ViewBase viewGameBase = new ViewBase(ConstantValue.PATH_FILE_BASE);
 
         #endregion
 
@@ -123,31 +124,9 @@ namespace UIConsole
 
         #region ===--- CreateViewBase ---===
 
-        public char[,] GetViewBase(int height = ConstantValue.HEIGHT_BASE,
-           int width = ConstantValue.WIDTH_BASE)
+        public char[,] GetViewBase()
         {
-            char[,] viewBase = new char[height, width];
-
-            for (int row = 0; row < viewBase.GetLength(0); row++)
-            {
-                for (int col = 0; col < viewBase.GetLength(1); col++)
-                {
-                    if (((row == 0) || (row == 1) || (row == 4))
-                        && ((col == 0) || (col == 2) || (col == 4))
-                        || (row == 2))
-                    {
-                        viewBase[row, col] = '*';
-                    }
-
-                    if ((row == 3) && ((col == 1)
-                        || (col == 2) || (col == 3)))
-                    {
-                        viewBase[row, col] = '*';
-                    }
-                }
-            }
-
-            return viewBase;
+            return viewGameBase.ViewGameBase;
         }
 
         #endregion          

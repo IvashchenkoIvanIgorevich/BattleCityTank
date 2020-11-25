@@ -12,15 +12,13 @@ namespace UIConsole
 {
     class Program
     {
-        //TODO: - add sound ?
-        //TODO: - try-catch for BL, must be in controller
         //TODO: - do data base
 
         static void Main(string[] args)
         {
             bool exit = false;
             ulong gameTime = 0;
-            bool init = true;
+            bool init = true;            
 
             GameField newGameField = new GameField(ConstantValue.WIDTH_GAMEFIELD,
                 ConstantValue.HEIGHT_GAMEFIELD);
@@ -123,13 +121,20 @@ namespace UIConsole
                     controller.MoveBullets();
                 }
 
-                if (controller.CheckEnemyDead())
+                if (controller.CheckEndGame(out bool result))
                 {
                     watch.Stop();
 
-                    string score = viewConsole.GetViewScore(watch.Elapsed.Minutes, watch.Elapsed.Seconds);
-
-                    viewConsole.PrintMessageTheGame("YOU WON", score, "PRESS \"ESC\" TO EXIT");                    
+                    if (result)
+                    {
+                        string score = viewConsole.GetViewScore(watch.Elapsed.Minutes, watch.Elapsed.Seconds);
+                        viewConsole.PrintMessageTheGame("YOU WON", score, "PRESS \"ESC\" TO EXIT");
+                    }
+                    else
+                    {
+                        string score = string.Empty;
+                        viewConsole.PrintMessageTheGame("YOU LOSE", score, ""); 
+                    }
 
                     exit = true;
                 }

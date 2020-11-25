@@ -78,6 +78,7 @@ namespace CommonLib
         public const string PATH_FILE_LIGHTTANK = "..\\..\\ImgTank\\ViewLightTank.txt";
         public const string PATH_FILE_HEAVYTANK = "..\\..\\ImgTank\\ViewHeavyTank.txt";
         public const string PATH_FILE_DESTROYTANK = "..\\..\\ImgTank\\ViewDestroyTank.txt";
+        public const string PATH_FILE_BASE = "..\\..\\ImgBase\\StandartBase.txt";
         public const string PATH_FILE_SAVE_GAME = "..\\..\\SaveGames\\Save.dat";
         public const string PATH_FILE_SOUND_MOVE = "..\\..\\Sound\\move_2s.wav";
         public const string PATH_FILE_SOUND_SHOOT = "..\\..\\Sound\\shot.wav";
@@ -85,12 +86,14 @@ namespace CommonLib
         public const string PATH_FILE_SOUND_ENGINE = "..\\..\\Sound\\workEngine.wav";
         public const string PATH_FILE_SOUND_DEAD_PLAYER = "..\\..\\Sound\\deadPlayer.wav";
         public const string PATH_FILE_SOUND_DEAD_ENEMY = "..\\..\\Sound\\deadEnemy.wav";
+        public const string PATH_LOG = "..\\..\\LogException\\ActionMove.txt";
         public const char BRICK_BLOCK = '\u25A0';
         public const char METAL_BLOCK = '\u2588';
         public const char GRASS_BLOCK = '\u2593';
         public const char ICE_BLOCK = '\u2592';
         public const char BLOCK = '\u2588';
         public const char BULLET = '*';
+        public const char BASE = '*';
         public const ColorSkin COLOR_BRICK_BLOCK = ColorSkin.Gray;
         public const ColorSkin COLOR_METAL_BLOCK = ColorSkin.DarkGray;
         public const ColorSkin COLOR_GRASS_BLOCK = ColorSkin.Green;

@@ -70,6 +70,10 @@ namespace _20200613_TankLibrary
                     break;
                 case Direction.NoDirection:
                     break;
+                default:
+                    throw new CreateBulletException
+                        (string.Format("\n{0} Method: CreateBullet, Class: Bullet, parametrs Direction: {1} - not found!!!",
+                        DateTime.Now, bulletTank.DirectionTank));
             }
 
             if (!Position.IsPermitMoveCoordinate(bulletTank.DirectionTank))

@@ -48,6 +48,7 @@
     <Compile Include="UIController.cs" />
     <Compile Include="UISound.cs" />
     <Compile Include="UIView.cs" />
+    <Compile Include="ViewBase.cs" />
     <Compile Include="ViewGameObject.cs" />
     <Compile Include="ViewTank.cs" />
   </ItemGroup>

@@ -104,11 +104,14 @@ namespace _20200613_TankLibrary
 
         #region ===--- InitialisationBase ---===
 
-        //public void CreateBase(GameField field)
-        //{
-        //    (new Base(ConstantValue.POS_ROW_BASE, ConstantValue.POS_COL_BASE,
-        //        ColorSkin.Yellow, SkinBase.Wood, field)).CreateBase();
-        //}
+        public void CreateBase()
+        {
+            Coordinate initCoordinate = new Coordinate(ConstantValue.POS_ROW_BASE,
+                ConstantValue.POS_COL_BASE);
+            Base gameBase = new Base(initCoordinate, ColorSkin.Yellow, _field);
+            gameBase.CreateBase();
+            _field.GameBase = gameBase; 
+        }
 
         #endregion
 
@@ -158,7 +161,7 @@ namespace _20200613_TankLibrary
         {
             CreatePlayer();
             CreateEnemys();
-            //CreateBase(field);
+            CreateBase();
             CreateAllBlocks();
 
             return _field;

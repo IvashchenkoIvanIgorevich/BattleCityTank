@@ -18,12 +18,18 @@ namespace _20200613_TankLibrary
         protected Dictionary<Coordinate, GameObject> _gameObjects = new Dictionary<Coordinate, GameObject>
             ((ConstantValue.HEIGHT_GAMEFIELD - 1) * (ConstantValue.WIDTH_GAMEFIELD - 1));
         private PlayerTank _player;
+        private Base _base;
         private List<EnemyTank> _enemies = new List<EnemyTank>(ConstantValue.NUM_ALL_ENEMY);
         private Coordinate _coordinateBase = new Coordinate(ConstantValue.POS_ROW_BASE,
             ConstantValue.POS_COL_BASE);
         private List<Bullet> _bullets = new List<Bullet>(ConstantValue.MAX_NUM_BULLETS);
         private SaveGame saveLoad { get; set; }
-        private event EnemyWasDead _enemyDead;
+        [field: NonSerialized]
+        private EnemyWasDead _getEnemyDeaded;
+        [field: NonSerialized]
+        private EnemyDeaded _enemyDead;
+        [field: NonSerialized]
+        private PlayerOrBaseDeaded _gameOver;
         public int NumEnemyOnField { get; private set; } = ConstantValue.START_NUM_ENEMYTANK;
 
         #endregion
@@ -35,7 +41,35 @@ namespace _20200613_TankLibrary
             Width = fieldWidth;
             Height = fieldHeight;
             saveLoad = new SaveGame(this);
-            _enemyDead += SetEnemyDead;
+            _getEnemyDeaded += SetEnemyDead;
+        }
+
+        #endregion
+
+        #region ===--- Events ---===
+
+        public event EnemyDeaded EnemyDead
+        {
+            add
+            {
+                _enemyDead += value;
+            }
+            remove
+            {
+                _enemyDead -= value;
+            }
+        }
+
+        public event PlayerOrBaseDeaded GameOver
+        {
+            add
+            {
+                _gameOver += value;
+            }
+            remove
+            {
+                _gameOver -= value;
+            }
         }
 
         #endregion
@@ -51,6 +85,18 @@ namespace _20200613_TankLibrary
             internal set
             {
                 _player = value;
+            }
+        }
+
+        public Base GameBase
+        {
+            get
+            {
+                return _base;
+            }
+            internal set
+            {
+                _base = value;
             }
         }
 
@@ -172,6 +218,7 @@ namespace _20200613_TankLibrary
                     }
                     break;
                 case ObjectType.Base:
+                    _base.BaseDead = true;
                     break;
                 case ObjectType.Bullet:
                     _gameObjects.Remove(dmgBullet.Position);
@@ -193,7 +240,9 @@ namespace _20200613_TankLibrary
                     delBull.Add(dmgBullet);
                     break;
                 default:
-                    break;
+                    throw new DamageObjNotFoundException
+                        (string.Format("\n{0} Method: SetDamageToObject, Class: GameField, parametrs KindOfObject: {1} - not found!!!",
+                        DateTime.Now, this[dmgBullet.Position].KindOfObject));
             }
         }
 
@@ -209,7 +258,7 @@ namespace _20200613_TankLibrary
             {
                 if (newBullet.CreateBullet(Player))
                 {
-                    if (_player.IsEventShotPlayer())    
+                    if (_player.IsEventShotPlayer())
                     {
                         _player.InvokeShotPlayer();
                     }
@@ -241,7 +290,7 @@ namespace _20200613_TankLibrary
 
         #region ===--- Method RemoveBullets ---===
 
-        private void RemoveBullets(Bullet bull)   
+        private void RemoveBullets(Bullet bull)
         {
             if (bull.Direction.HasFlag(Direction.Left)
                 || bull.Direction.HasFlag(Direction.Right))
@@ -300,7 +349,7 @@ namespace _20200613_TankLibrary
 
         #region ===--- Dead Enemy Tank ---===
 
-        public bool CheckEnemiesTank()    // check that one enemy dead
+        private bool CheckEnemiesTank()    // check that one enemy dead
         {
             bool win = false;
 
@@ -310,9 +359,15 @@ namespace _20200613_TankLibrary
             {
                 if (item.Characteristic.HP <= 0)
                 {
-                    if (_enemyDead != null)
+                    if (_getEnemyDeaded != null)
                     {
-                        _enemyDead(item);
+                        _getEnemyDeaded(item);
+
+                        if (_enemyDead != null)
+                        {
+                            _enemyDead();
+                        }
+
                         delEnemy.Add(item);
                     }
                 }
@@ -468,6 +523,43 @@ namespace _20200613_TankLibrary
             }
 
             return permit;
+        }
+
+        #endregion
+
+        #region ===--- Dead Player Or Base ---===
+
+        private bool CheckPlayerBase()
+        {
+            return (Player.Characteristic.HP <= 0 || _base.BaseDead) ? true : false;
+        }
+
+        #endregion
+
+        #region ===--- EndGame ---===
+
+        public bool EndGame(out bool loseOrWin)
+        {
+            bool res = false;
+            loseOrWin = false;
+
+            if (CheckEnemiesTank())
+            {
+                loseOrWin = true;
+            }
+            else
+            {
+                if (CheckPlayerBase())
+                {
+                    if (_gameOver != null)
+                    {
+                        _gameOver();
+                    }
+                    res = true;
+                }
+            }
+
+            return res;
         }
 
         #endregion

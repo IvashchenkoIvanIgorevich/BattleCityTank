@@ -17,7 +17,9 @@ namespace _20200613_TankLibrary
         public ulong TimeShoot { get; internal set; }
         public CharacteristicTank Characteristic { get; protected set; }
         public Direction DirectionTank { get; protected set; }
+        [field: NonSerialized]
         private MovedPlayer _movedPlayer;
+        [field: NonSerialized]
         protected ShootPlayer _shotedPlayer;
 
         #endregion
@@ -318,8 +320,8 @@ namespace _20200613_TankLibrary
                 case ActionPlayer.NoAction:
                     break;
                 default:
-                    //TODO: throw
-                    break;
+                    throw new ActionNotFoundException
+                        (string.Format("\n{0} Method: Move, Class: Tank, parametrs Action: {1} - not found!!!", DateTime.Now, action));
             }
 
             if (okDirect && IsPermitMove())
