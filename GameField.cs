@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommonLib;
+using DB;
 
 namespace _20200613_TankLibrary
 {
@@ -25,12 +26,16 @@ namespace _20200613_TankLibrary
         private List<Bullet> _bullets = new List<Bullet>(ConstantValue.MAX_NUM_BULLETS);
         private SaveGame saveLoad { get; set; }
         [field: NonSerialized]
-        private EnemyWasDead _getEnemyDeaded;
+        private event EnemyWasDead _getEnemyDeaded;
         [field: NonSerialized]
-        private EnemyDeaded _enemyDead;
+        private event EnemyDeaded _enemyDead;
         [field: NonSerialized]
-        private PlayerOrBaseDeaded _gameOver;
+        private event PlayerOrBaseDeaded _gameOver;
         public int NumEnemyOnField { get; private set; } = ConstantValue.START_NUM_ENEMYTANK;
+        private DBTank _db = new DBTank(ConstantValue.DB_CONN_STR);
+        public short IDPlayer { get; private set; } = -1;    //TODO: вынести в отдельный класс
+        public string PlayerName { get; private set; } = "NO NAME";    //TODO: вынести в отдельный класс
+        public int GameNumber { get; private set; }
 
         #endregion
 
@@ -69,6 +74,18 @@ namespace _20200613_TankLibrary
             remove
             {
                 _gameOver -= value;
+            }
+        }
+
+        public event EnemyWasDead GetEnemyDeaded
+        {
+            add
+            {
+                _getEnemyDeaded += value;
+            }
+            remove
+            {
+                _getEnemyDeaded -= value;
             }
         }
 
@@ -197,6 +214,7 @@ namespace _20200613_TankLibrary
                     if (dmgBullet.IsBotBullet)
                     {
                         Player.Characteristic.HP -= dmgBullet.AtackDamage;
+                        Player.GetDamage += dmgBullet.AtackDamage;
                         delBull.Add(dmgBullet);
                     }
                     if (Player.Characteristic.HP <= ConstantValue.LOW_HP_TANK)
@@ -209,6 +227,7 @@ namespace _20200613_TankLibrary
                     {
                         ((EnemyTank)this[dmgBullet.Position]).Characteristic.HP
                             -= dmgBullet.AtackDamage;
+                        Player.SetDamage += dmgBullet.AtackDamage;
                         delBull.Add(dmgBullet);
                     }
                     if (((EnemyTank)this[dmgBullet.Position]).Characteristic.HP
@@ -261,6 +280,7 @@ namespace _20200613_TankLibrary
                     if (_player.IsEventShotPlayer())
                     {
                         _player.InvokeShotPlayer();
+                        Player.NumFirePlayer++;
                     }
 
                     _bullets.Add(newBullet);    // Add to List<Bullet> not to _gameObjects because _gameObjects contains object on this position
@@ -396,7 +416,7 @@ namespace _20200613_TankLibrary
             return win;
         }
 
-        private void SetEnemyDead(Tank deadEnemy)    // delete dead enemy from game field
+        public void SetEnemyDead(Tank deadEnemy)    // delete dead enemy from game field
         {
             deadEnemy.DeleteTank();
             _player.NumKilledEnemy++;
@@ -546,6 +566,7 @@ namespace _20200613_TankLibrary
             if (CheckEnemiesTank())
             {
                 loseOrWin = true;
+                res = true;
             }
             else
             {
@@ -560,6 +581,59 @@ namespace _20200613_TankLibrary
             }
 
             return res;
+        }
+
+        #endregion
+
+        #region ===--- Database ---===
+
+        public void CreateNewPlayer(string _name, string _email, string _gender)
+        {
+            if (_db.CreatePlayer(_name, _email, _gender == "male" ? false : true))
+            {
+                IDPlayer = _db.ReadAllPlayer()
+                    .FirstOrDefault(p => p.Name == _name && p.Email == _email).PlayerId;
+                PlayerName = _name;
+            }
+        }
+
+        public bool CheckPlayerDB(short id)
+        {
+            bool res = false;
+
+            if (_db.ReadPlayer(id) != null)
+            {
+                IDPlayer = _db.ReadPlayer(id).PlayerId;
+                PlayerName = _db.ReadPlayer(id).Name;
+                res = true;
+            }
+
+            return res;
+        }
+
+        public bool CreateGameTank(short _model, int _numFire,
+            short _killedEnemies, int _setDamage, int _getDamage)
+        {
+            bool res = false;
+
+            if (_db.CreateGameTank(_model, _numFire, _killedEnemies, _setDamage, _getDamage, out int _tankSN))
+            {
+                Player.SerialNumTank = _tankSN;
+                res = true;
+            }
+
+            return res;
+        }
+
+        //public bool CreateTankCharacter(string _nameModel, short _atackSpeed,
+        //    short _healthPoint, short _moveSpeed)
+        //{
+        //    return _db.CreateTankCharacter(_nameModel, _atackSpeed, _healthPoint, _moveSpeed);
+        //}
+
+        public bool CreateGame(short _gameResult, int _resultingTime, DateTime _gameDate)
+        {
+            return _db.CreateGame(_gameResult, Player.SerialNumTank, IDPlayer, _resultingTime, _gameDate, out int GameNumber);
         }
 
         #endregion

@@ -73,6 +73,8 @@ namespace UIConsole
 
         public void PrintStartWindow()
         {
+            Console.Clear();
+
             try
             {
                 Console.SetWindowSize(ConstantValue.BUFFER_HEIGHT, ConstantValue.BUFFER_WIDTH);
@@ -140,6 +142,85 @@ namespace UIConsole
                 + ConstantValue.TOP_LOAD);
             Console.WriteLine("       \"L\" TO LOAD THE GAME ");
             Console.ResetColor();
+        }
+
+        #endregion
+
+        #region ===--- Print Authorization Window ---===
+
+        public void PrintDoYouHaveAcc()
+        {
+            Console.SetCursorPosition(50, 32);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(@"                                                                                      ");
+            Console.WriteLine(@"        ============================================================================= ");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                   DO YOU HAVE ACCOUNT?:  Y(YES) / N(NO)                   ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"         ===========================================================================  ");
+            Console.WriteLine(@"                                                                                      ");
+            Console.ResetColor();
+        }
+
+        public string[] PrintNewPlayer()
+        {
+            string[] res = new string[3];
+
+            Console.SetCursorPosition(50, 32);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(@"                                                                                      ");
+            Console.WriteLine(@"        ============================================================================= ");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                    Name:                                                  ||");
+            Console.SetCursorPosition(37, 37);
+            res[0] = Console.ReadLine();
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                    Email:                                                 ||");
+            Console.SetCursorPosition(37, 39);
+            res[1] = Console.ReadLine();
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                    Gender:                                                ||");
+            Console.SetCursorPosition(37, 41);
+            res[2] = Console.ReadLine();
+            Console.WriteLine(@"        ============================================================================= ");
+            Console.WriteLine();
+
+            return res;
+        }
+
+        public short PrintAuthorization()
+        {
+            short res = -1;
+
+            Console.SetCursorPosition(50, 32);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(@"                                                                                      ");
+            Console.WriteLine(@"        ============================================================================= ");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                    ID:                                                    ||");
+            Console.SetCursorPosition(37, 37);
+            short.TryParse(Console.ReadLine(), out res);
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"       ||                                                                           ||");
+            Console.WriteLine(@"        ============================================================================= ");
+            Console.WriteLine();
+
+            return res;
         }
 
         #endregion
@@ -230,6 +311,14 @@ namespace UIConsole
             Console.WriteLine("AD {0,4}", atckDmg);
             Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_HP + 5);
             Console.WriteLine("{0,4}", skin);
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_HP + 10);
+            Console.WriteLine("GN{0,2}", _controller.GetNumGame);
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_HP + 12);
+            Console.WriteLine("ID{0,2}", _controller.GetPlayerID);
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_HP + 14);
+            Console.WriteLine("{0,4}", _controller.GetPlayerName.Trim(' '));
+            Console.SetCursorPosition(ConstantValue.CUR_LEFT_STAT, ConstantValue.CUR_TOP_HP + 16);
+            Console.WriteLine("SN{0,2}", _controller.GetSNPlayerTank);
 
             Console.ResetColor();
         }

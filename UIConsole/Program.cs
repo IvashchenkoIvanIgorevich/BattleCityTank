@@ -12,24 +12,42 @@ namespace UIConsole
 {
     class Program
     {
-        //TODO: - do data base
-
         static void Main(string[] args)
         {
             bool exit = false;
             ulong gameTime = 0;
-            bool init = true;            
+            bool init = true;
 
             GameField newGameField = new GameField(ConstantValue.WIDTH_GAMEFIELD,
                 ConstantValue.HEIGHT_GAMEFIELD);
 
             ILoader initGame = null;
 
-            UIController controller = new UIController(newGameField);    
+            UIController controller = new UIController(newGameField);
             UIView viewConsole = new UIView(controller);
 
             ActionPlayer actionPlayer = ActionPlayer.NoAction;
             ActionPlayer[] actionEnemy = new ActionPlayer[ConstantValue.NUM_RND_ACTION_ENEMY];
+
+            bool play = false;
+
+            do
+            {
+                viewConsole.PrintDoYouHaveAcc();
+
+                actionPlayer = controller.GetActionPlayer(Console.ReadKey(true).Key);
+
+                if (actionPlayer == ActionPlayer.PressNo)
+                {
+                    controller.AddPlayerToDB(viewConsole.PrintNewPlayer());
+                    play = true;
+                }
+                if (actionPlayer == ActionPlayer.PressYes)
+                {
+                    play = controller.CheckPlayer(viewConsole.PrintAuthorization());
+                }
+            }
+            while (!play);
 
             viewConsole.PrintStartWindow();
 
@@ -81,15 +99,15 @@ namespace UIConsole
 
                     if (actionPlayer == ActionPlayer.PressPause)
                     {
-                        viewConsole.PrintMessageTheGame("PAUSE!!!", "PRESS ANY KEY TO CONTINUE");                        
+                        viewConsole.PrintMessageTheGame("PAUSE!!!", "PRESS ANY KEY TO CONTINUE");
                     }
 
                     if ((actionPlayer & ActionPlayer.MoveAction) > 0)
-                    {                        
+                    {
                         controller.MovePlayer(actionPlayer);
                     }
 
-                    if (actionPlayer == ActionPlayer.PressFire) 
+                    if (actionPlayer == ActionPlayer.PressFire)
                     {
                         controller.ShotPlayer(gameTime);
                     }
@@ -99,7 +117,7 @@ namespace UIConsole
                 {
                     if (gameTime % ConstantValue.TIME_DIRECT_ENEMY == 0)    // get random direction to enemies
                     {
-                        actionEnemy = GameManager.GetRandomAction();                        
+                        actionEnemy = GameManager.GetRandomAction();
                     }
 
                     controller.MoveEnemy(actionEnemy);
@@ -125,6 +143,8 @@ namespace UIConsole
                 {
                     watch.Stop();
 
+                    short loseWin = 1;
+
                     if (result)
                     {
                         string score = viewConsole.GetViewScore(watch.Elapsed.Minutes, watch.Elapsed.Seconds);
@@ -133,8 +153,12 @@ namespace UIConsole
                     else
                     {
                         string score = string.Empty;
-                        viewConsole.PrintMessageTheGame("YOU LOSE", score, ""); 
+                        viewConsole.PrintMessageTheGame("YOU LOSE", score, "");
+                        loseWin = 0;
                     }
+
+                    controller.AddGameTank();
+                    controller.AddGame(loseWin, (int)watch.ElapsedMilliseconds);
 
                     exit = true;
                 }
@@ -144,12 +168,12 @@ namespace UIConsole
                 {
                     controller.CreateNewEnem();
                 }
-
+                
                 viewConsole.PrintGameField();
 
                 ++gameTime;
                 System.Threading.Thread.Sleep(ConstantValue.TIME_SLEEP);
-            } 
+            }
             while ((actionPlayer != ActionPlayer.PressExit) && (!exit));
 
             Console.ReadKey();

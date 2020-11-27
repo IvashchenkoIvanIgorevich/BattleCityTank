@@ -70,7 +70,7 @@ namespace CommonLib
         public const int TOP_LOAD = 12;
         public const int WIDTH_BLOCK = 5;
         public const int HEIGHT_BLOCK = 5;
-        public const int NUM_ALL_ENEMY = 20;
+        public const int NUM_ALL_ENEMY = 10;
         public const int NUM_DIRECTION = 4;
         public const int NUM_RND_ACTION_ENEMY = 10;
         public const int NUM_ENEMY_ON_FIELD = 3;
@@ -108,5 +108,6 @@ namespace CommonLib
         public const int SHIFT_TWICE = 2;
         public const int SHIFT_ONCE = 1;
         public const int TIME_BEETWEN_SHOT = 50;
+        public const string DB_CONN_STR = "Data Source = DELLVENTCONTROL\\SQLEXPRESS; Initial Catalog = Tanks; Integrated Security = True";
     }
 }

@@ -30,6 +30,7 @@ namespace UIConsole
                 _gameField.Player.Shooted += _uiSound.ShootPlayerSound;
                 _gameField.EnemyDead += _uiSound.DeadEnemySound;
                 _gameField.GameOver += _uiSound.DeadPlayerSound;
+                _gameField.GetEnemyDeaded += _gameField.SetEnemyDead;    // do this here after Deserialized
             }
         }
 
@@ -71,6 +72,12 @@ namespace UIConsole
                     break;
                 case ConsoleKey.L:
                     pressPlayer = ActionPlayer.PressLoad;
+                    break;
+                case ConsoleKey.Y:
+                    pressPlayer = ActionPlayer.PressYes;
+                    break;
+                case ConsoleKey.N:
+                    pressPlayer = ActionPlayer.PressNo;
                     break;
                 case ConsoleKey.Enter:
                     pressPlayer = ActionPlayer.PressEnter;
@@ -247,6 +254,97 @@ namespace UIConsole
             }
 
             return colorSkin;
+        }
+
+        public void AddPlayerToDB(string[] strParam)
+        {
+            try
+            {
+                _gameField.CreateNewPlayer(strParam[0], strParam[1], strParam[2]);
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(ConstantValue.PATH_LOG,
+                    "Method: AddPlayerToDB" + ex.Message + Environment.NewLine);                
+            }
+        }
+
+        public bool CheckPlayer(short id)
+        {
+            bool res = false;
+
+            try
+            {
+                if (_gameField.CheckPlayerDB(id))
+                {
+                    res = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(ConstantValue.PATH_LOG,
+                    "Method: CheckPlayer" + ex.Message + Environment.NewLine);                
+            }
+
+            return res;
+        }
+
+        public void AddGameTank()
+        {
+            short _model = -1;
+            if (_gameField.Player.Characteristic.Skin == SkinTank.Heavy)
+            {
+                _model = 1;
+            }
+            if (_gameField.Player.Characteristic.Skin == SkinTank.Light)
+            {
+                _model = 2;
+            }
+            if (_gameField.Player.Characteristic.Skin == SkinTank.Destroy)
+            {
+                _model = 3;
+            }
+
+            _gameField.CreateGameTank(_model, _gameField.Player.NumFirePlayer,
+            _gameField.Player.NumKilledEnemy, _gameField.Player.SetDamage,
+            _gameField.Player.GetDamage);
+        }
+
+        public void AddGame(short resultGame, int score)
+        {
+            _gameField.CreateGame(resultGame, score, DateTime.Now);
+        }
+
+        public int GetNumGame
+        {
+            get
+            {
+                return _gameField.GameNumber;
+            }
+        }
+
+        public short GetPlayerID
+        {
+            get
+            {
+                return _gameField.IDPlayer;
+            }
+        }
+
+        public string GetPlayerName
+        {
+            get
+            {
+                return _gameField.PlayerName;
+            }
+        }
+
+        public int GetSNPlayerTank
+        {
+            get
+            {
+                return _gameField.Player.SerialNumTank;
+            }
         }
     }
 }

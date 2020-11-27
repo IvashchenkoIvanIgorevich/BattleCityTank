@@ -15,7 +15,7 @@ namespace _20200613_TankLibrary
 
         public int Range { get; private set; } = 0;
         public int AtackSpeed { get; private set; } = 0;
-        public int AtackDamage { get; private set; } = 0;
+        public short AtackDamage { get; private set; } = 0;
         public bool IsBotBullet { get; set; } = false;
         public SkinBullet Skin { get; internal set; } = SkinBullet.NoSkin;
         public Direction Direction { get; private set; } = Direction.NoDirection;
@@ -30,7 +30,7 @@ namespace _20200613_TankLibrary
         }
 
         public Bullet(Coordinate coordinate, ColorSkin color, IField owner,
-            int range, int atckSpeed, int atckDamage, bool botBullet,
+            int range, int atckSpeed, short atckDamage, bool botBullet,
             SkinBullet skin, Direction direction)
             : base(coordinate, color, owner)
         {

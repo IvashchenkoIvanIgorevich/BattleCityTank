@@ -12,18 +12,18 @@ namespace _20200613_TankLibrary
         #region ===--- Dataset ---===
 
         public SkinTank Skin { get; }
-        public int HP { get; internal set; }
-        public int MS { get; }
-        public int AtckSp { get; }
+        public short HP { get; internal set; }
+        public short MS { get; }
+        public short AtckSp { get; }
         public int AtckRng { get; }
-        public int AtckDmg { get; }
+        public short AtckDmg { get; }
 
         #endregion
 
         #region ===--- Constructor ---===
 
-        public CharacteristicTank(int hp, int moveSpeed, int atackSpeed, int atackRange,
-            int atackDamage, SkinTank skin)
+        public CharacteristicTank(short hp, short moveSpeed, short atackSpeed, int atackRange,
+            short atackDamage, SkinTank skin)
         {
             HP = hp;
             MS = moveSpeed;

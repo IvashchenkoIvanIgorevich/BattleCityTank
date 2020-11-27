@@ -36,11 +36,6 @@ namespace _20200613_TankLibrary
             using (FileStream streamLoad = new FileStream(ConstantValue.PATH_FILE_SAVE_GAME, FileMode.Open, FileAccess.Read, FileShare.None))
             {
                 _field = (GameField)binFotmatter.Deserialize(streamLoad);
-
-                //_field.Player.Moved += _uiSound.MovePlayerSound;
-                //_field.Player.Shooted += _uiSound.ShootPlayerSound;
-                //_field.EnemyDead += _uiSound.DeadEnemySound;
-                //_field.GameOver += _uiSound.DeadPlayerSound;
             }
 
             return _field;

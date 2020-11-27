@@ -39,6 +39,10 @@ namespace _20200613_TankLibrary
             1, 1, ConstantValue.ATACK_RANGE_DESTROY, ConstantValue.ATACK_DAMAGE_DESTROY,
             SkinTank.Destroy);
 
+        public CharacteristicTank destroyerCharacterPlayer = new CharacteristicTank(ConstantValue.HP_DESTROY,
+            1, 1, ConstantValue.ATACK_RANGE_DESTROY, ConstantValue.ATACK_DAMAGE_DESTROY, 
+            SkinTank.Destroy);
+
         #endregion        
 
         #region ===--- InitialisationBlocks ---===
@@ -121,7 +125,7 @@ namespace _20200613_TankLibrary
         {
             Coordinate initCoordinate = new Coordinate(ConstantValue.PLAYER_POS_ROW,
                 ConstantValue.PLAYER_POS_COL);
-            PlayerTank play = new PlayerTank(destroyerCharacter, Direction.Up, initCoordinate,
+            PlayerTank play = new PlayerTank(destroyerCharacterPlayer, Direction.Up, initCoordinate,
                 ColorSkin.White, _field);
             play.CreateTank();
             _field.Player = play;
